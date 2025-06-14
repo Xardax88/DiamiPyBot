@@ -27,9 +27,3 @@ ENV/
 # Editor and IDE specific files
 .idea/
 *.vscode/
-*.sublime-project
-*.sublime-workspace
-*.tmproj
-*.pyc
-*.swp
-*~

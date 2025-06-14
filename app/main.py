@@ -24,6 +24,13 @@ async def on_ready():
     await load_all_cogs()
     print('------')
 
+    try:
+        # Sincroniza los comandos definidos en el árbol de la aplicación con Discord
+        synced = await bot.tree.sync()
+        print(f"Sincronizados {len(synced)} comando(s) slash.")
+    except Exception as e:
+        print(f"Error al sincronizar comandos: {e}")
+
 
 async def load_all_cogs():
 
