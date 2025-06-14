@@ -1,35 +1,35 @@
 # Byte-compiled / optimized / DLL files
-    __pycache__/
-    *.py[cod]
-    *$py.class
+__pycache__/
+*.py[cod]
+*$py.class
 
-    # Distribution / packaging
-    .eggs/
-    dist/
-    build/
-    sdist/
-    *.egg-info/
+# Distribution / packaging
+.eggs/
+dist/
+build/
+sdist/
+*.egg-info/
 
-    # Installed packages
-    *.egg
-    *.whl
+# Installed packages
+*.egg
+*.whl
 
-    # Environments
-    .env
-    venv/
-    env/
-    ENV/
-    .venv/
+# Environments
+.env
+venv/
+env/
+ENV/
+.venv/
 
-    # Log files
-    *.log
+# Log files
+*.log
 
-    # Editor and IDE specific files
-    .idea/
-    *.vscode/
-    *.sublime-project
-    *.sublime-workspace
-    *.tmproj
-    *.pyc
-    *.swp
-    *~
+# Editor and IDE specific files
+.idea/
+*.vscode/
+*.sublime-project
+*.sublime-workspace
+*.tmproj
+*.pyc
+*.swp
+*~
