@@ -22,6 +22,7 @@ ENV/
 .venv/
 
 # Log files
+logs/
 *.log
 
 # Editor and IDE specific files
