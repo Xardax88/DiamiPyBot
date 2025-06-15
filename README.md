@@ -108,7 +108,7 @@ Esta es la lista de funcionalidades planificadas y su estado actual. ¡Hay mucho
   - [ ] Anti-Raid
 - [ ] **Interacción Básica**
   - [ ] Comandos de texto personalizados
-  - [ ] Menús contextuales (Click derecho en usuario/mensaje)
+  - [x] Menús contextuales (Click derecho en usuario/mensaje)
   - [ ] Mensajes de bienvenida y despedida personalizables
 - [ ] **Utilidades Avanzadas**
   - [ ] Dashboard web para configuración
@@ -148,12 +148,6 @@ Esta es la lista de funcionalidades planificadas y su estado actual. ¡Hay mucho
   - [x] Implementación de IA conversacional 
   - [x] Integracion en conversaciones de manera dinamica.
   - [ ] Efemérides con IA e imagen generada.
-
----
-
-## 📜 Licencia
-
-Distribuido bajo la Licencia MIT. Consulta el archivo `LICENSE` para más información.
 
 ---
 
