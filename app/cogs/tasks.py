@@ -9,7 +9,6 @@ from discord.ext import commands, tasks
 logger = logging.getLogger(__name__)
 
 # --- Lista de mensajes para el "Feliz Jueves" ---
-# Tener una lista le da variedad sin necesidad de una IA.
 MENSAJES_JUEVES = [
     "Feliz Jueves. Mitad de semana superada, *fírimar*. Ya casi es viernes. ☕",
     "Tomen, para que no decaiga el ánimo. Feliz Jueves.",
@@ -62,9 +61,9 @@ class ScheduledTasks(commands.Cog):
                     channel = guild.get_channel(channel_id)
 
                     if channel and isinstance(channel, discord.TextChannel):
-                        image_path = "assets/images/feliz_jueves.png"
+                        image_path = "assets/images/FelizJueves.png"
                         try:
-                            file = discord.File(image_path, filename="feliz_jueves.png")
+                            file = discord.File(image_path, filename="FelizJueves.png")
                             # Elegir un mensaje aleatorio de la lista
                             message_text = random.choice(MENSAJES_JUEVES)
 

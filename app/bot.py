@@ -36,10 +36,22 @@ class Diami(commands.Bot):
 
         logger.info(f'Conectado como {self.user} (ID: {self.user.id})')
         logger.info('------')
-        print(f'Bot {self.user} está en línea y listo.')
+
+        activity_text = "Viendo a los fírimar, mientras tomo cafe. ☕"
+        activity = discord.Activity(type=discord.ActivityType.custom, name=activity_text)
+        status = discord.Status.online
+        try:
+            await self.change_presence(activity=activity, status=status)
+            logger.info(
+                f"Presencia del bot establecida a: '{activity.type.name} {activity.name}' con estado '{status.name}'")
+        except Exception as e:
+            logger.error(f"No se pudo establecer la presencia del bot: {e}")
+
+        print(f'{self.user} está en línea y lista.')
+        print(f"Presencia: {activity.type.name.capitalize()}: {activity.name}")
 
     async def setup_hook(self):
-
+        """El hook para cargar cogs y sincronizar comandos."""
         logger.info("--- Cargando Cogs ---")
         # Buscamos todos los archivos .py en la carpeta 'cogs'
         cogs_path = 'app.cogs'
