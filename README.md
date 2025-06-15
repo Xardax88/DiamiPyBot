@@ -1,22 +1,22 @@
-<div align="center">
-  <!-- Opcional: Si tienes un logo, puedes ponerlo aquí -->
-  <!-- <img src="URL_DE_TU_LOGO" alt="Logo de Diami" width="120" height="120"> -->
-  
-  # Diami Bot - Edición Python 🐍
-  
-  Un bot de Discord versátil y multipropósito, reescrito desde cero en Python con un enfoque en el rendimiento, la escalabilidad y nuevas funcionalidades.
 
-  <!-- Badges -->
-  <p>
-    <img src="https://img.shields.io/badge/Status-En%20Desarrollo-blue" alt="Estado del Proyecto">
-    <img src="https://img.shields.io/github/last-commit/Neodoomed/DiamiPyBot" alt="Último Commit">
-    <img src="https://img.shields.io/github/repo-size/Neodoomed/DiamiPyBot" alt="Tamaño del Repositorio">
-    <img src="https://img.shields.io/github/license/Neodoomed/DiamiPyBot" alt="Licencia">
-    <img src="https://img.shields.io/badge/Python-3.10%2B-blue?logo=python" alt="Versión de Python">
-    <img src="https://img.shields.io/badge/discord.py-v2.3.2-blue?logo=discord&logoColor=white" alt="discord.py">
-  </p>
-</div>
+![banner](assets/readme/Diami-Banner.png)
 
+# Diami Bot - Edición Python 🐍
+  
+Un bot de Discord versátil y multipropósito, reescrito desde cero en Python con un enfoque en el rendimiento, la escalabilidad y nuevas funcionalidades.
+
+
+<!-- Badges -->
+![Status](https://img.shields.io/badge/Status-En%20Desarrollo-blue)
+![Last Commit](https://img.shields.io/github/last-commit/Neodoomed/DiamiPyBot)
+![Repo Size](https://img.shields.io/github/repo-size/Neodoomed/DiamiPyBot)
+![License](https://img.shields.io/github/license/Neodoomed/DiamiPyBot)
+![Python Ver](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)
+![discord.py](https://img.shields.io/badge/discord.py-v2.3.2-blue?logo=discord&logoColor=white)
+[![Discord Server](https://discordapp.com/api/guilds/774727090188320808/embed.png)](https://discord.com/invite/3x8uMdpeHR)
+
+
+---
 ## 📖 Acerca del Proyecto
 
 **Diami** es la nueva encarnación de mi bot personal de Discord, esta vez escrito completamente en **Python** utilizando la librería `discord.py`.
@@ -40,7 +40,10 @@ Esta es la pila tecnológica que da vida a Diami:
     *   ![discord.py](https://img.shields.io/badge/discord.py-5865F2?style=for-the-badge&logo=discord&logoColor=white)
 *   **Base de Datos:**
     *   ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white) (con `motor` para operaciones asíncronas)
+*   **IDE**
+    *   ![PyCharm](https://img.shields.io/badge/pycharm-143?style=for-the-badge&logo=pycharm&logoColor=black&color=black&labelColor=green)
 *   **Despliegue y Hosting:**
+    *   ![Railway](https://img.shields.io/badge/Railway-131415?style=for-the-badge&logo=railway&logoColor=white)
     *   ![Fedora Server](https://img.shields.io/badge/Fedora%20Server-51A2DA?style=for-the-badge&logo=fedora&logoColor=white)
 *   **Integración IA:**
     *   ![Gemini](https://img.shields.io/badge/Google%20Gemini-8E77F0?style=for-the-badge&logo=google-gemini&logoColor=white)
@@ -72,8 +75,7 @@ Esta es la pila tecnológica que da vida a Diami:
     ```
 
 4.  **Configura tus variables de entorno:**
-    *   Crea un archivo llamado `.env` en la raíz del proyecto.
-    *   Copia el contenido de `.env.example` (si lo tienes) o usa la siguiente plantilla:
+    *   Crea un archivo llamado `.env` en la raíz del proyecto y usa la siguiente plantilla:
     ```env
     # .env
     DISCORD_TOKEN="EL_TOKEN_DE_TU_BOT_AQUÍ"
@@ -81,6 +83,9 @@ Esta es la pila tecnológica que da vida a Diami:
     
     # Opcional: Para sincronización instantánea de comandos en un servidor de pruebas
     GUILD_ID="EL_ID_DE_TU_SERVIDOR_DE_PRUEBAS"
+
+    # Token de Gamini Api para el uso de la IA
+    GEMINI_API_KEY="AQUÍ_VA_TU_CLAVE_DE_API_DE_GEMINI"
     ```
 
 5.  **Ejecuta el bot:**
@@ -97,6 +102,7 @@ Esta es la lista de funcionalidades planificadas y su estado actual. ¡Hay mucho
 - [x] **Fundamentos del Bot**
   - [x] Comandos Slash
   - [x] Logger para depuración
+  - [x] Task (Feliz jueves)
 - [ ] **Administration**
   - [ ] Anti-Spam
   - [ ] Anti-Raid
@@ -138,8 +144,10 @@ Esta es la lista de funcionalidades planificadas y su estado actual. ¡Hay mucho
 - [ ] **Módulos de Entretenimiento**
   - [ ] Lectura de cartas del Tarot
   - [ ] Mascota virtual para el servidor
-- [ ] **Inteligencia Artificial**
-  - [ ] Implementación de IA conversacional `(powered by Gemini)`
+- [x] **Inteligencia Artificial** `(powered by Gemini)`
+  - [x] Implementación de IA conversacional 
+  - [x] Integracion en conversaciones de manera dinamica.
+  - [ ] Efemérides con IA e imagen generada.
 
 ---
 
