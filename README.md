@@ -1,5 +1,5 @@
 
-![banner](assets/readme/Diami-Banner.png)
+![banner](docs/assets/diami_banner.png)
 
 # Diami Bot - Edición Python 🐍
   

@@ -69,6 +69,46 @@ class Config(commands.GroupCog, name="configurar"):
         )
         await interaction.response.send_message(embed=embed, ephemeral=True)
 
+    @app_commands.command(name="canal_confesiones", description="Establece el canal de confesiones.")
+    @app_commands.describe(canal="El canal donde se publican la confesiones anonimas.")
+    async def set_confession_channel(self, interaction: discord.Interaction, canal: discord.TextChannel):
+        """Establece el canal de reglas."""
+        if not interaction.guild:
+            return
+
+        await self.bot.db_manager.update_channel(
+            interaction.guild.id,
+            "confession_channel_id",
+            canal.id
+        )
+
+        embed = discord.Embed(
+            title="✅ Configuración Actualizada",
+            description=f"El canal de confesiones ha sido establecido en {canal.mention}.",
+            color=discord.Color.green()
+        )
+        await interaction.response.send_message(embed=embed, ephemeral=True)
+
+    @app_commands.command(name="canal_historia",
+                          description="Establece el canal para el historial de eventos (joins, edits, deletes).")
+    @app_commands.describe(canal="El canal donde se enviará el historial de moderación.")
+    async def set_history_channel(self, interaction: discord.Interaction, canal: discord.TextChannel):
+        """Establece el canal del historial de eventos."""
+        if not interaction.guild:
+            return
+
+        await self.bot.db_manager.update_channel(
+            interaction.guild.id,
+            "history_channel_id",  # La clave que coincide con la DB
+            canal.id
+        )
+
+        embed = discord.Embed(
+            title="✅ Configuración Actualizada",
+            description=f"El canal de historia ha sido establecido en {canal.mention}.",
+            color=discord.Color.green()
+        )
+        await interaction.response.send_message(embed=embed, ephemeral=True)
 
 async def setup(bot: commands.Bot):
     """Función para cargar el cog en el bot."""

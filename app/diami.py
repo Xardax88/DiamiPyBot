@@ -1,4 +1,4 @@
-#bot.py
+#diami.py
 import os
 import logging
 from typing import Optional
@@ -7,6 +7,8 @@ import discord
 from discord.ext import commands
 
 from .core.database import DatabaseManager
+
+from app.core.logging_handler import LoggingHandler
 
 # Creamos un logger específico para nuestro bot
 logger = logging.getLogger('discord')
@@ -37,21 +39,38 @@ class Diami(commands.Bot):
         logger.info(f'Conectado como {self.user} (ID: {self.user.id})')
         logger.info('------')
 
-        activity_text = "Viendo a los fírimar, mientras tomo cafe. ☕"
-        activity = discord.Activity(type=discord.ActivityType.custom, name=activity_text)
-        status = discord.Status.online
-        try:
-            await self.change_presence(activity=activity, status=status)
-            logger.info(
-                f"Presencia del bot establecida a: '{activity.type.name} {activity.name}' con estado '{status.name}'")
-        except Exception as e:
-            logger.error(f"No se pudo establecer la presencia del bot: {e}")
-
+        await self.change_presence(activity=discord.CustomActivity(name="Lista para matar a dios, o convertirme en el!"))
         print(f'{self.user} está en línea y lista.')
-        print(f"Presencia: {activity.type.name.capitalize()}: {activity.name}")
+
 
     async def setup_hook(self):
         """El hook para cargar cogs y sincronizar comandos."""
+
+        if self.guild_id:
+            try:
+                config = await self.db_manager.get_guild_config(self.guild_id)
+                log_channel_id = config.get("log_channel_id") if config else None
+
+                if log_channel_id:
+                    # Obtenemos el logger raíz para añadirle nuestro handler
+                    root_logger = logging.getLogger()
+                    # Creamos y añadimos nuestro handler personalizado
+                    discord_handler = LoggingHandler(bot=self, channel_id=log_channel_id)
+                    # Establecemos un formato para los logs de Discord
+                    formatter = logging.Formatter('%(levelname)s - %(name)s - %(message)s')
+                    discord_handler.setFormatter(formatter)
+                    # Establecemos el nivel. Por ejemplo, INFO y superior.
+                    discord_handler.setLevel(logging.INFO)
+
+                    root_logger.addHandler(discord_handler)
+                    logging.info(f"DiscordLoggingHandler configurado para el canal ID: {log_channel_id}")
+                else:
+                    logging.warning(
+                        f"No se encontró 'log_channel_id' para el guild de pruebas {self.guild_id}. Los logs no se enviarán a Discord.")
+
+            except Exception as e:
+                logging.error(f"Error al configurar el DiscordLoggingHandler: {e}", exc_info=True)
+
         logger.info("--- Cargando Cogs ---")
         # Buscamos todos los archivos .py en la carpeta 'cogs'
         cogs_path = 'app.cogs'
@@ -78,3 +97,5 @@ class Diami(commands.Bot):
             # Puede tardar hasta una hora en reflejarse en todos los servidores.
             await self.tree.sync()
             logger.info("Comandos slash sincronizados globalmente.")
+
+

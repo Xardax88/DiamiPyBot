@@ -61,9 +61,9 @@ class ScheduledTasks(commands.Cog):
                     channel = guild.get_channel(channel_id)
 
                     if channel and isinstance(channel, discord.TextChannel):
-                        image_path = "assets/images/FelizJueves.png"
+                        image_path = "assets/images/feliz-jueves.png"
                         try:
-                            file = discord.File(image_path, filename="FelizJueves.png")
+                            file = discord.File(image_path, filename="feliz-jueves.png")
                             # Elegir un mensaje aleatorio de la lista
                             message_text = random.choice(MENSAJES_JUEVES)
 

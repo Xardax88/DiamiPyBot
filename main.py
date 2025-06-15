@@ -1,10 +1,29 @@
-# app/main.py
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+    Diami Bot - Edición Python
+
+    Este archivo es el punto de entrada principal para el bot de Discord "Diami".
+    Se encarga de las siguientes tareas:
+    1. Cargar las variables de entorno desde el archivo .env.
+    2. Configurar el sistema de logging para la consola y los archivos.
+    3. Instanciar la clase principal del bot (Diami).
+    4. Iniciar la conexión del bot con la API de Discord.
+
+    Project: DiamiPyBot
+    Author: Xardax (Maximiliano Paragoni)
+
+    Copyright (c) 2025-presente, Xardax (Maximiliano Paragoni)
+    Licenciado bajo la Licencia MIT.
+"""
+
 import os
 import logging
 import asyncio
 from dotenv import load_dotenv
 
-from app.bot import Diami
+from app import Diami
 
 
 def setup_logging():

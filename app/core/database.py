@@ -34,12 +34,13 @@ class DatabaseManager:
             "main_channel_id": None,
             "log_channel_id": None,
             "rules_channel_id": None,
+            "confession_channel_id": None,
         }
         await self.collection.insert_one(default_config)
         logger.info(f"Se ha creado la configuración inicial para el Guild {guild_id}.")
         return True  # Retornamos True para indicar que se creó una nueva configuración
 
-    # --- MÉTODO MODIFICADO ---
+
     async def update_channel(self, guild_id: int, channel_type: str, channel_id: int):
         """
         Actualiza un campo de canal específico en la configuración de un servidor.

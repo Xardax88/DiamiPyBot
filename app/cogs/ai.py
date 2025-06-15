@@ -5,19 +5,21 @@ import asyncio
 import xml.etree.ElementTree as ET
 from datetime import datetime
 from io import BytesIO
-import random  # <--- Nuevo import
+import random
 
 import discord
-from discord.ext import commands, tasks  # <--- tasks añadido
+from discord.ext import commands, tasks
 import google.generativeai as genai
+from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from PIL import Image
 
 logger = logging.getLogger(__name__)
 
-# --- NUEVO: Lista de saludos comunes ---
 SALUDOS_COMUNES = [
     "hola", "buenas", "buenos dias", "buenas tardes", "buenas noches",
-    "buen dia", "que tal", "como andan", "todo bien", "holis"
+    "buen dia", "que tal", "como andan", "todo bien", "holis", "hey",
+    "que onda", "saludos", "hi", "hello", "saludos a todos",
+    "morning"
 ]
 
 
@@ -35,8 +37,30 @@ class AI(commands.Cog):
             raise ValueError("GEMINI_API_KEY no encontrada en el archivo .env")
 
         genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel('gemini-1.5-flash')
-        logger.info("Modelo de Gemini ('gemini-1.5-flash') inicializado.")
+
+
+        self.generation_config = genai.GenerationConfig(
+            temperature=0.7, # Temperatura para respuestas más creativas
+            max_output_tokens=1024,  # Límite de tokens para la respuesta
+            top_p=0.95,  # Top-p sampling para mayor diversidad
+            top_k=40,  # Top-k sampling para limitar el número de opciones
+        )
+        # Bloquea contenido que tiene una probabilidad media o alta de ser peligroso.
+        # Puedes ajustarlo a BLOCK_ONLY_HIGH, BLOCK_LOW_AND_ABOVE, o BLOCK_NONE.
+        self.safety_settings = {
+
+            HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+        }
+
+        self.model = genai.GenerativeModel(
+            model_name='gemini-2.0-flash-lite',
+            generation_config=self.generation_config,
+            safety_settings=self.safety_settings,
+        )
+        logger.info("Modelo de Gemini ('gemini-2.0-flash-lite') inicializado.")
 
         self.personality_prompt = self._load_personality_prompt()
         if not self.personality_prompt:
@@ -162,7 +186,7 @@ class AI(commands.Cog):
         de forma proactiva si el canal principal está activo.
         """
         # Probabilidad de iniciar la interacción para no ser demasiado intrusiva
-        if random.random() > 0.40:  # 60% de las veces no hace nada
+        if random.random() > 0.20:  # 60% de las veces no hace nada
             return
 
         logger.info("Tarea proactiva iniciada, buscando un servidor activo...")
