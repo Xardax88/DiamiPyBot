@@ -15,6 +15,9 @@ from PIL import Image
 
 logger = logging.getLogger(__name__)
 
+# ==============================================================================
+# Lista de saludos comunes
+# ==============================================================================
 SALUDOS_COMUNES = [
     "hola",
     "buenas",
@@ -36,6 +39,9 @@ SALUDOS_COMUNES = [
 ]
 
 
+# ==============================================================================
+# Cog para la Inteligencia Artificial Diami
+# ==============================================================================
 class AI(commands.Cog, name="Inteligencia Artificial Diami"):
     """
     Cog dedicado a la IA, Diami. Gestiona su personalidad, interacciones reactivas y proactivas.
@@ -277,6 +283,7 @@ class AI(commands.Cog, name="Inteligencia Artificial Diami"):
     async def before_proactive_task(self):
         """Espera a que el bot esté completamente listo antes de iniciar la tarea."""
         await self.bot.wait_until_ready()
+
 
 # ==============================================================================
 # FUNCIÓN DE CARGA DEL COG
