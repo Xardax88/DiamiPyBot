@@ -25,7 +25,9 @@ from dotenv import load_dotenv
 
 from app import Diami
 
-
+# ==============================================================================
+# Configuración del logging
+# ==============================================================================
 def setup_logging():
     """Configura el sistema de logging."""
 
@@ -53,7 +55,9 @@ def setup_logging():
     logging.getLogger().addHandler(file_handler)
     logging.getLogger().addHandler(console_handler)
 
-
+# ==============================================================================
+# Función principal del bot
+# ==============================================================================
 async def main():
     """Función principal para configurar y ejecutar el bot."""
     setup_logging()
@@ -80,7 +84,9 @@ async def main():
     async with bot:
         await bot.start(TOKEN)
 
-
+# ==============================================================================
+# Punto de entrada del script
+# ==============================================================================
 if __name__ == "__main__":
     try:
         asyncio.run(main())

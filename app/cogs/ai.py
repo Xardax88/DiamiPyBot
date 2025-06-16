@@ -278,6 +278,8 @@ class AI(commands.Cog, name="Inteligencia Artificial Diami"):
         """Espera a que el bot esté completamente listo antes de iniciar la tarea."""
         await self.bot.wait_until_ready()
 
-
+# ==============================================================================
+# FUNCIÓN DE CARGA DEL COG
+# ==============================================================================
 async def setup(bot: commands.Bot):
     await bot.add_cog(AI(bot))

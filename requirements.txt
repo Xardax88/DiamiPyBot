@@ -3,3 +3,4 @@ python-dotenv
 motor>=3.3.2
 google-generativeai
 Pillow
+black

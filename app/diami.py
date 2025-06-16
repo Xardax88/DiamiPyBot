@@ -14,6 +14,9 @@ from app.core.logging_handler import LoggingHandler
 logger = logging.getLogger("discord")
 
 
+# ==============================================================================
+# Clase principal del bot Diami
+# ==============================================================================
 class Diami(commands.Bot):
     """
     Clase principal para el bot Diami.
@@ -45,9 +48,10 @@ class Diami(commands.Bot):
         logger.info("------")
 
         await self.change_presence(
+            status=discord.Status.Online,
             activity=discord.CustomActivity(
-                name="Lista para matar a dios, o convertirme en el!"
-            )
+                name="🐍 Lista para matar a dios, o convertirme en el!",
+            ),
         )
         print(f"{self.user} está en línea y lista.")
 

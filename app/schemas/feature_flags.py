@@ -1,6 +1,8 @@
 # app/schemas/feature_flags.py
 
-
+# ==============================================================================
+# Esquema de características del bot
+# ==============================================================================
 def get_default_feature_flags() -> dict:
     """
     Retorna el diccionario que representa el estado por defecto

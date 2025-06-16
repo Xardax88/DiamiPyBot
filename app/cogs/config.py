@@ -4,208 +4,56 @@ from discord import app_commands
 from discord.ext import commands
 
 
-@app_commands.default_permissions(administrator=True)
-class Config(commands.GroupCog, name="config"):
+# ==============================================================================
+# Sub-Grupo para /config set
+# ==============================================================================
+class SetGroup(app_commands.Group):
+    # Heredamos de app_commands.Group, no de commands.GroupCog
     def __init__(self, bot: commands.Bot):
+        # El nombre del grupo se define en el decorador de la clase padre
+        super().__init__(name="set", description="Configura diferentes aspectos del bot.")
         self.bot = bot
-        super().__init__()
 
-    # COMANDO PARA VER LA CONFIGURACIÓN
-    @app_commands.command(
-        name="ver",
-        description="Muestra la configuración actual de los canales del servidor.",
-    )
-    async def view_config(self, interaction: discord.Interaction):
-        """Muestra todos los canales configurados en un embed."""
-        if not interaction.guild:
-            return
-
-        await interaction.response.defer(ephemeral=True)
-
-        config = await self.bot.db_manager.get_guild_config(interaction.guild.id)
-
-        embed = discord.Embed(
-            title="⚙️ Configuración de Canales",
-            description=f"Estado actual de la configuración para **{interaction.guild.name}**.",
-            color=discord.Color.blue(),
-        )
-
-        if not config:
-            embed.description = "No hay ninguna configuración guardada para este servidor todavía. Usa los subcomandos de `/config` para empezar."
-            await interaction.followup.send(embed=embed)
-            return
-
-        # Mapeo de claves de la DB a nombres legibles
-        channel_map = {
-            "main_channel_id": "Canal Principal",
-            "log_channel_id": "Canal de Logs",
-            "rules_channel_id": "Canal de Reglas",
-            "history_channel_id": "Canal de Historia",
-            "confession_channel_id": "Canal de Confesiones",
-        }
-
-        for key, name in channel_map.items():
-            channel_id = config.get(key)
-            value = "Sin configurar"  # Valor por defecto
-
-            if channel_id:
-                channel = interaction.guild.get_channel(channel_id)
-                if channel:
-                    value = channel.mention
-                else:
-                    # El ID está en la DB, pero el canal ya no existe en el servidor.
-                    value = f"⚠️ Canal no encontrado (ID: `{channel_id}`)"
-
-            embed.add_field(name=f"▶️ {name}", value=value, inline=False)
-
-        await interaction.followup.send(embed=embed)
-
-    # COMANDOS PARA ESTABLECER CANALES
-    @app_commands.command(
-        name="canal_principal", description="Establece el canal principal."
-    )
-    @app_commands.describe(canal="El canal que quieres designar como principal.")
-    async def set_main_channel(
-            self, interaction: discord.Interaction, canal: discord.TextChannel
-    ):
-        """Establece el canal principal del servidor."""
-        if not interaction.guild:
-            return
-        await self.bot.db_manager.update_channel(
-            interaction.guild.id, "main_channel_id", canal.id
-        )
-        embed = discord.Embed(
-            title="✅ Configuración Actualizada",
-            description=f"El canal principal ha sido establecido en {canal.mention}.",
-            color=discord.Color.green(),
-        )
-        await interaction.response.send_message(embed=embed, ephemeral=True)
-
-    @app_commands.command(
-        name="canal_logs", description="Establece el canal para recibir logs del bot."
-    )
-    @app_commands.describe(canal="El canal donde se enviarán los logs.")
-    async def set_log_channel(
-            self, interaction: discord.Interaction, canal: discord.TextChannel
-    ):
-        """Establece el canal donde se enviarán los logs del bot."""
-        if not interaction.guild:
-            return
-        await self.bot.db_manager.update_channel(
-            interaction.guild.id, "log_channel_id", canal.id
-        )
-        embed = discord.Embed(
-            title="✅ Configuración Actualizada",
-            description=f"El canal de logs ha sido establecido en {canal.mention}.",
-            color=discord.Color.green(),
-        )
-        await interaction.response.send_message(embed=embed, ephemeral=True)
-
-    @app_commands.command(
-        name="canal_reglas", description="Establece el canal de reglas del servidor."
-    )
-    @app_commands.describe(canal="El canal donde están publicadas las reglas.")
-    async def set_rules_channel(
-            self, interaction: discord.Interaction, canal: discord.TextChannel
-    ):
-        """Establece el canal donde se publican las reglas del servidor."""
-        if not interaction.guild:
-            return
-        await self.bot.db_manager.update_channel(
-            interaction.guild.id, "rules_channel_id", canal.id
-        )
-        embed = discord.Embed(
-            title="✅ Configuración Actualizada",
-            description=f"El canal de reglas ha sido establecido en {canal.mention}.",
-            color=discord.Color.green(),
-        )
-        await interaction.response.send_message(embed=embed, ephemeral=True)
-
-    @app_commands.command(
-        name="canal_confesiones", description="Establece el canal de confesiones."
-    )
-    @app_commands.describe(canal="El canal donde se publican la confesiones anonimas.")
-    async def set_confession_channel(
-            self, interaction: discord.Interaction, canal: discord.TextChannel
-    ):
-        """Establece el canal donde se publican las confesiones anónimas."""
-        if not interaction.guild:
-            return
-        await self.bot.db_manager.update_channel(
-            interaction.guild.id, "confession_channel_id", canal.id
-        )
-        embed = discord.Embed(
-            title="✅ Configuración Actualizada",
-            description=f"El canal de confesiones ha sido establecido en {canal.mention}.",
-            color=discord.Color.green(),
-        )
-        await interaction.response.send_message(embed=embed, ephemeral=True)
-
-    @app_commands.command(
-        name="canal_historia",
-        description="Establece el canal para el historial de eventos.",
-    )
+    @app_commands.command(name="channel", description="Establece un canal para una función específica.")
     @app_commands.describe(
-        canal="El canal donde se enviará el historial de moderación."
+        tipo="El tipo de canal que quieres configurar.",
+        canal="El canal de texto que quieres asignar."
     )
-    async def set_history_channel(
-            self, interaction: discord.Interaction, canal: discord.TextChannel
-    ):
-        """Establece el canal donde se enviará el historial de eventos del servidor."""
-        if not interaction.guild:
-            return
-        await self.bot.db_manager.update_channel(
-            interaction.guild.id, "history_channel_id", canal.id
-        )
+    @app_commands.choices(tipo=[
+        app_commands.Choice(name="Principal", value="main_channel_id"),
+        app_commands.Choice(name="Logs", value="log_channel_id"),
+        app_commands.Choice(name="Reglas", value="rules_channel_id"),
+        app_commands.Choice(name="Historia", value="history_channel_id"),
+        app_commands.Choice(name="Confesiones", value="confession_channel_id"),
+        app_commands.Choice(name="Reportes", value="report_channel_id"),
+    ])
+    async def set_channel(self, interaction: discord.Interaction, tipo: app_commands.Choice[str],
+                          canal: discord.TextChannel):
+        if not interaction.guild: return
+        await self.bot.db_manager.update_channel(interaction.guild.id, tipo.value, canal.id)
         embed = discord.Embed(
-            title="✅ Configuración Actualizada",
-            description=f"El canal de historia ha sido establecido en {canal.mention}.",
-            color=discord.Color.green(),
+            title="✅ Canal Configurado",
+            description=f"El canal de **{tipo.name}** ha sido establecido en {canal.mention}.",
+            color=discord.Color.green()
         )
         await interaction.response.send_message(embed=embed, ephemeral=True)
 
-    # COMANDO PARA ACTIVAR/DESACTIVAR FUNCIONES
-    @app_commands.command(
-        name="toggle",
-        description="Activa o desactiva una función del bot en este servidor.",
-    )
+    @app_commands.command(name="feature", description="Activa o desactiva una función del bot.")
     @app_commands.describe(
         funcion="La función que quieres activar o desactivar.",
-        estado="Elige si quieres activar o desactivar la función.",
+        estado="Elige si quieres activar o desactivar la función."
     )
-    @app_commands.choices(
-        funcion=[
-            app_commands.Choice(
-                name="Logs de Moderación (Historial)", value="history_channel_enabled"
-            ),
-            app_commands.Choice(
-                name="Mensajes de Bienvenida", value="welcome_message_enabled"
-            ),
-            app_commands.Choice(
-                name="Tarea 'Feliz Jueves'", value="feliz_jueves_task_enabled"
-            ),
-            app_commands.Choice(
-                name="Logs de Errores del Bot", value="log_channel_enabled"
-            ),
-        ]
-    )
-    async def toggle_feature(
-            self,
-            interaction: discord.Interaction,
-            funcion: app_commands.Choice[str],
-            estado: bool,
-    ):
-        if not interaction.guild:
-            return
-
-        await self.bot.db_manager.update_feature_flag(
-            interaction.guild.id,
-            funcion.value,  # La clave interna de la DB (ej. 'history_channel_enabled')
-            estado,
-        )
-
+    @app_commands.choices(funcion=[
+        app_commands.Choice(name="Logs de Moderación (Historial)", value="history_channel_enabled"),
+        app_commands.Choice(name="Mensajes de Bienvenida", value="welcome_message_enabled"),
+        app_commands.Choice(name="Tarea 'Feliz Jueves'", value="feliz_jueves_task_enabled"),
+        app_commands.Choice(name="Logs de Errores del Bot", value="log_channel_enabled"),
+    ])
+    async def set_feature_status(self, interaction: discord.Interaction, funcion: app_commands.Choice[str],
+                                 estado: bool):
+        if not interaction.guild: return
+        await self.bot.db_manager.update_feature_flag(interaction.guild.id, funcion.value, estado)
         status_text = "✅ Activada" if estado else "❌ Desactivada"
-
         embed = discord.Embed(
             title="⚙️ Función Actualizada",
             description=f"La función **{funcion.name}** ha sido **{status_text}**.",
@@ -214,6 +62,87 @@ class Config(commands.GroupCog, name="config"):
         await interaction.response.send_message(embed=embed, ephemeral=True)
 
 
+# ==============================================================================
+# Sub-Grupo para /config status
+# ==============================================================================
+class StatusGroup(app_commands.Group):
+    def __init__(self, bot: commands.Bot):
+        super().__init__(name="status", description="Muestra el estado de la configuración del bot.")
+        self.bot = bot
+
+    @app_commands.command(name="all", description="Muestra la configuración completa del bot para este servidor.")
+    async def view_all_config(self, interaction: discord.Interaction):
+        if not interaction.guild: return
+        await interaction.response.defer(ephemeral=True)
+        config = await self.bot.db_manager.get_guild_config(interaction.guild.id)
+        embed = discord.Embed(title=f"⚙️ Estado de Configuración de {interaction.guild.name}",
+                              color=discord.Color.blue())
+        if not config:
+            embed.description = "No hay ninguna configuración guardada para este servidor."
+            await interaction.followup.send(embed=embed);
+            return
+
+        channel_map = {
+            "main_channel_id": "Principal",
+            "log_channel_id": "Logs",
+            "rules_channel_id": "Reglas",
+            "history_channel_id": "Historia",
+            "confession_channel_id": "Confesiones",
+            "report_channel_id": "Canal de Reportes",
+        }
+        channel_text = ""
+        for key, name in channel_map.items():
+            channel_id = config.get(key)
+            value = "❌ *Sin configurar*"
+            if channel_id:
+                channel = interaction.guild.get_channel(channel_id)
+                value = channel.mention if channel else f"⚠️ *Canal no encontrado*"
+            channel_text += f"**{name}:** {value}\n"
+        embed.add_field(name="Canales Configurados", value=channel_text, inline=False)
+
+        feature_map = {
+            "history_channel_enabled": "Moderación",
+            "welcome_message_enabled": "Bienvenida",
+            "feliz_jueves_task_enabled": "'Feliz Jueves'",
+            "log_channel_enabled": "Logs de Errores"
+        }
+
+        feature_text = ""
+        features = config.get("features", {})
+        for key, name in feature_map.items():
+            status = features.get(key, False)
+            status_emoji = "✅ Activado" if status else "❌ Desactivado"
+            feature_text += f"**{name}:** {status_emoji}\n"
+        embed.add_field(name="Estado de las Funciones", value=feature_text, inline=False)
+
+        await interaction.followup.send(embed=embed)
+
+
+# ==============================================================================
+# Cog Principal que agrupa los sub-grupos
+# ==============================================================================
+@app_commands.default_permissions(administrator=True)
+class Config(commands.Cog):
+    # El GroupCog ahora actúa como un contenedor para los otros grupos
+    config_group = app_commands.Group(name="config", description="Comandos para configurar el bot.")
+
+    def __init__(self, bot: commands.Bot):
+        self.bot = bot
+        # Añadimos los grupos de comandos al árbol de comandos del bot
+        # a través del Cog.
+        self.config_group.add_command(SetGroup(bot))
+        self.config_group.add_command(StatusGroup(bot))
+        self.bot.tree.add_command(self.config_group, guild=discord.Object(id=bot.guild_id) if bot.guild_id else None)
+
+    # Este método es importante para cuando el cog se descarga (unload)
+    def cog_unload(self):
+        self.bot.tree.remove_command(self.config_group.name,
+                                     guild=discord.Object(id=self.bot.guild_id) if self.bot.guild_id else None)
+
+
+# ==============================================================================
+# Función de Carga del Cog
+# ==============================================================================
 async def setup(bot: commands.Bot):
-    """Función para cargar el cog en el bot."""
+    """Función para cargar el cog principal y sus sub-grupos."""
     await bot.add_cog(Config(bot))

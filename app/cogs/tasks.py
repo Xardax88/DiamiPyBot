@@ -8,10 +8,14 @@ from discord.ext import commands, tasks
 
 logger = logging.getLogger(__name__)
 
-# Definimos la zona horaria para GMT-3 (Argentina)
+# ==============================================================================
+# Define la zona horaria para GMT-3 (Argentina)
+# ==============================================================================
 GMT_MINUS_3 = datetime.timezone(datetime.timedelta(hours=-3))
 
+# ==============================================================================
 # Lista de mensajes para el "Feliz Jueves"
+# ==============================================================================
 MENSAJES_JUEVES = [
     "Feliz Jueves. Mitad de semana superada, *fírimar*. Ya casi es viernes. ☕",
     "Tomen, para que no decaiga el ánimo. Feliz Jueves.",
@@ -20,7 +24,9 @@ MENSAJES_JUEVES = [
     "Feliz Jueves. Ahora, si me disculpan, mi café me espera."
 ]
 
-
+# ==============================================================================
+# Cog para manejar tareas programadas
+# ==============================================================================
 class ScheduledTasks(commands.Cog, name="tasks"):
     """
     Un cog para manejar todas las tareas programadas que no dependen directamente de la IA,
@@ -91,7 +97,9 @@ class ScheduledTasks(commands.Cog, name="tasks"):
         """Espera a que el bot esté listo antes de iniciar la tarea."""
         await self.bot.wait_until_ready()
 
-
+# ==============================================================================
+# FUNCIÓN DE CARGA DEL COG
+# ==============================================================================
 async def setup(bot: commands.Bot):
     """Función para cargar el cog en el bot."""
     await bot.add_cog(ScheduledTasks(bot))

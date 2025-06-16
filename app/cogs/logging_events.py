@@ -5,7 +5,9 @@ from discord.ext import commands
 
 logger = logging.getLogger("discord")
 
-
+# ==============================================================================
+# Cog para registrar eventos importantes del servidor
+# ==============================================================================
 class LoggingEvents(commands.Cog, name="logging"):
     """
     Cog encargado de registrar eventos importantes del servidor
@@ -124,7 +126,9 @@ class LoggingEvents(commands.Cog, name="logging"):
 
         await self._send_log_embed(after.guild.id, embed)
 
-
+# ==============================================================================
+# FUNCIÓN DE CARGA DEL COG
+# ==============================================================================
 async def setup(bot: commands.Bot):
     """Función para cargar el cog en el bot."""
     await bot.add_cog(LoggingEvents(bot))
