@@ -3,7 +3,7 @@ import logging
 import discord
 from discord.ext import commands
 
-logger = logging.getLogger('discord')
+logger = logging.getLogger("discord")
 
 
 class LoggingEvents(commands.Cog, name="logging"):
@@ -19,7 +19,9 @@ class LoggingEvents(commands.Cog, name="logging"):
         """Función auxiliar para enviar un embed al canal de historia."""
         config = await self.bot.db_manager.get_guild_config(guild_id)
 
-        if not config or not config.get("features", {}).get("history_channel_enabled", False):
+        if not config or not config.get("features", {}).get(
+            "history_channel_enabled", False
+        ):
             return
 
         if not config or not config.get("history_channel_id"):
@@ -30,7 +32,9 @@ class LoggingEvents(commands.Cog, name="logging"):
             if log_channel:
                 await log_channel.send(embed=embed)
         except discord.Forbidden:
-            logger.warning(f"No tengo permisos para enviar mensajes en el canal de historia del servidor {guild_id}.")
+            logger.warning(
+                f"No tengo permisos para enviar mensajes en el canal de historia del servidor {guild_id}."
+            )
         except Exception as e:
             logger.error(f"Error al enviar log al servidor {guild_id}: {e}")
 
@@ -41,11 +45,15 @@ class LoggingEvents(commands.Cog, name="logging"):
             title="✅ Usuario se ha unido",
             description=f"{member.mention} {member.name}",
             color=discord.Color.green(),
-            timestamp=discord.utils.utcnow()
+            timestamp=discord.utils.utcnow(),
         )
         embed.set_thumbnail(url=member.display_avatar.url)
         embed.add_field(name="ID de Usuario", value=member.id, inline=False)
-        embed.add_field(name="Cuenta Creada", value=discord.utils.format_dt(member.created_at, style='R'), inline=False)
+        embed.add_field(
+            name="Cuenta Creada",
+            value=discord.utils.format_dt(member.created_at, style="R"),
+            inline=False,
+        )
         embed.set_footer(text=f"Servidor: {member.guild.name}")
 
         await self._send_log_embed(member.guild.id, embed)
@@ -57,7 +65,7 @@ class LoggingEvents(commands.Cog, name="logging"):
             title="❌ Usuario ha salido",
             description=f"{member.mention} {member.name}",
             color=discord.Color.red(),
-            timestamp=discord.utils.utcnow()
+            timestamp=discord.utils.utcnow(),
         )
         embed.set_thumbnail(url=member.display_avatar.url)
         embed.add_field(name="ID de Usuario", value=member.id, inline=False)
@@ -71,15 +79,20 @@ class LoggingEvents(commands.Cog, name="logging"):
         if not message.guild or message.author.bot:
             return  # Ignorar mensajes de DMs o de otros bots
 
-        content = message.content or "El mensaje no tenía contenido de texto (posiblemente un embed o una imagen)."
+        content = (
+            message.content
+            or "El mensaje no tenía contenido de texto (posiblemente un embed o una imagen)."
+        )
 
         embed = discord.Embed(
             title="🗑️ Mensaje Eliminado",
             description=f"**Autor:** {message.author.mention}\n**Canal:** {message.channel.mention}",
             color=discord.Color.orange(),
-            timestamp=message.created_at  # Muestra cuándo se creó el mensaje original
+            timestamp=message.created_at,  # Muestra cuándo se creó el mensaje original
         )
-        embed.add_field(name="Contenido", value=f"```{content[:1000]}```", inline=False)  # Truncamos a 1000 caracteres
+        embed.add_field(
+            name="Contenido", value=f"```{content[:1000]}```", inline=False
+        )  # Truncamos a 1000 caracteres
         embed.set_footer(text=f"ID del Autor: {message.author.id}")
 
         await self._send_log_embed(message.guild.id, embed)
@@ -97,10 +110,16 @@ class LoggingEvents(commands.Cog, name="logging"):
             title="✏️ Mensaje Editado",
             description=f"**Autor:** {after.author.mention}\n**Canal:** {after.channel.mention}\n[Ir al mensaje]({after.jump_url})",
             color=discord.Color.blue(),
-            timestamp=discord.utils.utcnow()
+            timestamp=discord.utils.utcnow(),
         )
-        embed.add_field(name="Contenido Anterior", value=f"```{before_content[:1000]}```", inline=False)
-        embed.add_field(name="Contenido Nuevo", value=f"```{after_content[:1000]}```", inline=False)
+        embed.add_field(
+            name="Contenido Anterior",
+            value=f"```{before_content[:1000]}```",
+            inline=False,
+        )
+        embed.add_field(
+            name="Contenido Nuevo", value=f"```{after_content[:1000]}```", inline=False
+        )
         embed.set_footer(text=f"ID del Autor: {after.author.id}")
 
         await self._send_log_embed(after.guild.id, embed)

@@ -16,10 +16,23 @@ from PIL import Image
 logger = logging.getLogger(__name__)
 
 SALUDOS_COMUNES = [
-    "hola", "buenas", "buenos dias", "buenas tardes", "buenas noches",
-    "buen dia", "que tal", "como andan", "todo bien", "holis", "hey",
-    "que onda", "saludos", "hi", "hello", "saludos a todos",
-    "morning"
+    "hola",
+    "buenas",
+    "buenos dias",
+    "buenas tardes",
+    "buenas noches",
+    "buen dia",
+    "que tal",
+    "como andan",
+    "todo bien",
+    "holis",
+    "hey",
+    "que onda",
+    "saludos",
+    "hi",
+    "hello",
+    "saludos a todos",
+    "morning",
 ]
 
 
@@ -38,9 +51,8 @@ class AI(commands.Cog, name="Inteligencia Artificial Diami"):
 
         genai.configure(api_key=api_key)
 
-
         self.generation_config = genai.GenerationConfig(
-            temperature=0.7, # Temperatura para respuestas más creativas
+            temperature=0.7,  # Temperatura para respuestas más creativas
             max_output_tokens=1024,  # Límite de tokens para la respuesta
             top_p=0.95,  # Top-p sampling para mayor diversidad
             top_k=40,  # Top-k sampling para limitar el número de opciones
@@ -48,7 +60,6 @@ class AI(commands.Cog, name="Inteligencia Artificial Diami"):
         # Bloquea contenido que tiene una probabilidad media o alta de ser peligroso.
         # Puedes ajustarlo a BLOCK_ONLY_HIGH, BLOCK_LOW_AND_ABOVE, o BLOCK_NONE.
         self.safety_settings = {
-
             HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
             HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
             HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
@@ -56,7 +67,7 @@ class AI(commands.Cog, name="Inteligencia Artificial Diami"):
         }
 
         self.model = genai.GenerativeModel(
-            model_name='gemini-2.0-flash-lite',
+            model_name="gemini-2.0-flash-lite",
             generation_config=self.generation_config,
             safety_settings=self.safety_settings,
         )
@@ -64,7 +75,9 @@ class AI(commands.Cog, name="Inteligencia Artificial Diami"):
 
         self.personality_prompt = self._load_personality_prompt()
         if not self.personality_prompt:
-            logger.critical("El prompt de personalidad no se pudo cargar. La IA no funcionará correctamente.")
+            logger.critical(
+                "El prompt de personalidad no se pudo cargar. La IA no funcionará correctamente."
+            )
 
         # Inicia la tarea proactiva que permite a Diami unirse a conversaciones de forma autónoma.
         self.proactive_conversation_task.start()
@@ -79,11 +92,17 @@ class AI(commands.Cog, name="Inteligencia Artificial Diami"):
         try:
             tree = ET.parse(prompt_path)
             root = tree.getroot()
-            full_text_content = "\n".join(node.strip() for node in root.itertext() if node.strip())
-            logger.info("Prompt de personalidad complejo cargado exitosamente desde XML.")
+            full_text_content = "\n".join(
+                node.strip() for node in root.itertext() if node.strip()
+            )
+            logger.info(
+                "Prompt de personalidad complejo cargado exitosamente desde XML."
+            )
             return full_text_content
         except Exception as e:
-            logger.error(f"Error al parsear el archivo XML de personalidad: {e}", exc_info=True)
+            logger.error(
+                f"Error al parsear el archivo XML de personalidad: {e}", exc_info=True
+            )
             return None
 
     async def _get_message_history_xml(self, channel: discord.TextChannel) -> str:
@@ -93,15 +112,23 @@ class AI(commands.Cog, name="Inteligencia Artificial Diami"):
             content = discord.utils.escape_markdown(old_message.content)
             content = discord.utils.escape_mentions(content)
             if old_message.attachments:
-                content += f" [El usuario adjuntó {len(old_message.attachments)} imagen(es)]"
+                content += (
+                    f" [El usuario adjuntó {len(old_message.attachments)} imagen(es)]"
+                )
             history_parts.append(
-                f"<mensaje><usuario>{old_message.author.display_name}</usuario><contenido>{content.strip()}</contenido></mensaje>")
+                f"<mensaje><usuario>{old_message.author.display_name}</usuario><contenido>{content.strip()}</contenido></mensaje>"
+            )
         history_parts.reverse()
         history_str = "\n".join(history_parts)
         return f"<historial_chat>\n{history_str}\n</historial_chat>"
 
-    async def _generate_gemini_response(self, channel: discord.TextChannel, user_name: str, user_input: str,
-                                        attachments: list = []):
+    async def _generate_gemini_response(
+        self,
+        channel: discord.TextChannel,
+        user_name: str,
+        user_input: str,
+        attachments: list = [],
+    ):
         """Función centralizada para generar respuestas con Gemini."""
         prompt_parts = [self.personality_prompt]
 
@@ -119,13 +146,17 @@ class AI(commands.Cog, name="Inteligencia Artificial Diami"):
         prompt_parts.append(context_and_task)
 
         if attachments:
-            prompt_parts.append("\nEl usuario también ha adjuntado la(s) siguiente(s) imagen(es):")
+            prompt_parts.append(
+                "\nEl usuario también ha adjuntado la(s) siguiente(s) imagen(es):"
+            )
             for attachment in attachments:
                 image_bytes = await attachment.read()
                 img = Image.open(BytesIO(image_bytes))
                 prompt_parts.append(img)
 
-        logger.info(f"Enviando prompt a Gemini. Tarea para: {user_name}. Input: '{user_input[:50]}...'")
+        logger.info(
+            f"Enviando prompt a Gemini. Tarea para: {user_name}. Input: '{user_input[:50]}...'"
+        )
         response = await self.model.generate_content_async(prompt_parts)
         return response.text
 
@@ -138,11 +169,18 @@ class AI(commands.Cog, name="Inteligencia Artificial Diami"):
         # 1. Mención directa o respuesta al bot (siempre responde)
         is_mention = self.bot.user in message.mentions
         is_reply = (
-                    message.reference and message.reference.resolved and message.reference.resolved.author == self.bot.user)
+            message.reference
+            and message.reference.resolved
+            and message.reference.resolved.author == self.bot.user
+        )
 
         # 2. Saludo aleatorio (probabilidad baja)
-        is_greeting = any(saludo in message.content.lower().split() for saludo in SALUDOS_COMUNES)
-        should_greet = is_greeting and random.random() < 0.15  # 15% de probabilidad de responder a un saludo
+        is_greeting = any(
+            saludo in message.content.lower().split() for saludo in SALUDOS_COMUNES
+        )
+        should_greet = (
+            is_greeting and random.random() < 0.15
+        )  # 15% de probabilidad de responder a un saludo
 
         if not (is_mention or is_reply or should_greet):
             return
@@ -168,14 +206,15 @@ class AI(commands.Cog, name="Inteligencia Artificial Diami"):
                     message.channel,
                     message.author.display_name,
                     user_input,
-                    message.attachments
+                    message.attachments,
                 )
                 if response_text:
                     await message.reply(response_text)
             except Exception as e:
                 logger.error(f"Error en on_message con Gemini: {e}", exc_info=True)
-                await message.reply("Ai... mi conexión con el saber arcano parece fallar. 💀")
-
+                await message.reply(
+                    "Ai... mi conexión con el saber arcano parece fallar. 💀"
+                )
 
     @tasks.loop(minutes=20)  # Se ejecuta cada 20 minutos
     async def proactive_conversation_task(self):
@@ -203,16 +242,26 @@ class AI(commands.Cog, name="Inteligencia Artificial Diami"):
 
                 # Verificar si ha habido actividad reciente en el canal
                 last_message = await channel.fetch_message(channel.last_message_id)
-                if last_message and (datetime.utcnow().replace(tzinfo=None) - last_message.created_at.replace(
-                        tzinfo=None)).total_seconds() < 600:  # 10 minutos
+                if (
+                    last_message
+                    and (
+                        datetime.utcnow().replace(tzinfo=None)
+                        - last_message.created_at.replace(tzinfo=None)
+                    ).total_seconds()
+                    < 600
+                ):  # 10 minutos
 
-                    logger.info(f"Canal activo encontrado en '{guild.name}'. Diami se unirá a la conversación.")
+                    logger.info(
+                        f"Canal activo encontrado en '{guild.name}'. Diami se unirá a la conversación."
+                    )
 
                     async with channel.typing():
                         # Le damos a la IA el contexto y una orden específica
                         user_input = "(Has estado observando la conversación en silencio y decides unirte. Lee el historial y haz un comentario relevante, una pregunta o una broma para integrarte a la charla. No saludes, simplemente continúa la conversación existente)."
 
-                        response_text = await self._generate_gemini_response(channel, "Diami", user_input)
+                        response_text = await self._generate_gemini_response(
+                            channel, "Diami", user_input
+                        )
                         if response_text:
                             await channel.send(response_text)
 
@@ -220,7 +269,9 @@ class AI(commands.Cog, name="Inteligencia Artificial Diami"):
                         return
 
             except Exception as e:
-                logger.error(f"Error en la tarea proactiva para el servidor {guild.name}: {e}")
+                logger.error(
+                    f"Error en la tarea proactiva para el servidor {guild.name}: {e}"
+                )
 
     @proactive_conversation_task.before_loop
     async def before_proactive_task(self):

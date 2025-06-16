@@ -52,7 +52,6 @@ class ScheduledTasks(commands.Cog, name="tasks"):
 
         logger.info("¡Es Jueves! Preparando el envío del meme.")
 
-
         # Buscamos en todos los servidores el canal principal para enviar el meme
         for guild in self.bot.guilds:
             try:
@@ -86,7 +85,6 @@ class ScheduledTasks(commands.Cog, name="tasks"):
 
             except Exception as e:
                 logger.error(f"Error procesando el servidor {guild.name} para la tarea de Feliz Jueves: {e}")
-
 
     @feliz_jueves_task.before_loop
     async def before_feliz_jueves_task(self):

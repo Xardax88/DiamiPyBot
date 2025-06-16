@@ -1,6 +1,7 @@
 # app/schemas/guild_config.py
 from .feature_flags import get_default_feature_flags
 
+
 def get_default_guild_config(guild_id: int) -> dict:
     """
     Retorna el diccionario que representa el schema por defecto para la configuración

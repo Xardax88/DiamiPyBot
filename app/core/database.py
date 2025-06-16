@@ -6,6 +6,7 @@ from ..schemas.guild_config import get_default_guild_config
 
 logger = logging.getLogger('discord')
 
+
 class DatabaseManager:
     def __init__(self, mongo_uri: str):
         try:
@@ -59,7 +60,6 @@ class DatabaseManager:
             upsert=True
         )
         logger.info(f"Guild {guild_id}: Se actualizó '{channel_type}' a {channel_id}.")
-
 
     async def update_feature_flag(self, guild_id: int, feature_name: str, status: bool):
         """

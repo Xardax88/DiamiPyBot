@@ -3,7 +3,7 @@
 
 # Diami Bot - Edición Python 🐍
   
-Diami es bot de Discord versátil y multipropósito, reescrito desde cero en Python con un enfoque en el rendimiento, la escalabilidad y nuevas funcionalidades.
+Diami es un bot de Discord versátil y multipropósito, reescrito desde cero en Python.
 
 <!-- Badges -->
 ![Status](https://img.shields.io/badge/Status-En%20Desarrollo-blue)
@@ -12,6 +12,7 @@ Diami es bot de Discord versátil y multipropósito, reescrito desde cero en Pyt
 ![License](https://img.shields.io/github/license/Neodoomed/DiamiPyBot)
 ![Python Ver](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)
 ![discord.py](https://img.shields.io/badge/discord.py-v2.3.2-blue?logo=discord&logoColor=white)
+[![Code Style: Black](https://img.shields.io/badge/Code%20Style-Black-000000?logo=black&logoColor=white)](https://github.com/psf/black)
 [![Discord Server](https://discordapp.com/api/guilds/774727090188320808/embed.png)](https://discord.com/invite/3x8uMdpeHR)
 
 > [!NOTE]
