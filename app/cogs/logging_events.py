@@ -6,7 +6,7 @@ from discord.ext import commands
 logger = logging.getLogger('discord')
 
 
-class LoggingEvents(commands.Cog):
+class LoggingEvents(commands.Cog, name="logging"):
     """
     Cog encargado de registrar eventos importantes del servidor
     en un canal de historia designado.
@@ -18,6 +18,10 @@ class LoggingEvents(commands.Cog):
     async def _send_log_embed(self, guild_id: int, embed: discord.Embed):
         """Función auxiliar para enviar un embed al canal de historia."""
         config = await self.bot.db_manager.get_guild_config(guild_id)
+
+        if not config or not config.get("features", {}).get("history_channel_enabled", False):
+            return
+
         if not config or not config.get("history_channel_id"):
             return  # Si no hay canal configurado, no hacemos nada
 

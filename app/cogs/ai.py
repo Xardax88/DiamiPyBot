@@ -23,7 +23,7 @@ SALUDOS_COMUNES = [
 ]
 
 
-class AI(commands.Cog):
+class AI(commands.Cog, name="Inteligencia Artificial Diami"):
     """
     Cog dedicado a la IA, Diami. Gestiona su personalidad, interacciones reactivas y proactivas.
     """
@@ -66,16 +66,15 @@ class AI(commands.Cog):
         if not self.personality_prompt:
             logger.critical("El prompt de personalidad no se pudo cargar. La IA no funcionará correctamente.")
 
-        # --- NUEVO: Iniciar la tarea en segundo plano ---
+        # Inicia la tarea proactiva que permite a Diami unirse a conversaciones de forma autónoma.
         self.proactive_conversation_task.start()
 
     def cog_unload(self):
         """Asegura que la tarea se detenga si el cog se descarga."""
         self.proactive_conversation_task.cancel()
 
-    # ... (El método _load_personality_prompt no cambia)
     def _load_personality_prompt(self) -> str | None:
-        # ... (código idéntico al anterior)
+
         prompt_path = "data/prompts/personality.xml"
         try:
             tree = ET.parse(prompt_path)
@@ -87,9 +86,8 @@ class AI(commands.Cog):
             logger.error(f"Error al parsear el archivo XML de personalidad: {e}", exc_info=True)
             return None
 
-    # ... (El método _get_message_history_xml no cambia)
     async def _get_message_history_xml(self, channel: discord.TextChannel) -> str:
-        # ... (código idéntico al anterior)
+
         history_parts = []
         async for old_message in channel.history(limit=100):
             content = discord.utils.escape_markdown(old_message.content)
@@ -178,7 +176,7 @@ class AI(commands.Cog):
                 logger.error(f"Error en on_message con Gemini: {e}", exc_info=True)
                 await message.reply("Ai... mi conexión con el saber arcano parece fallar. 💀")
 
-    # --- NUEVA TAREA EN SEGUNDO PLANO ---
+
     @tasks.loop(minutes=20)  # Se ejecuta cada 20 minutos
     async def proactive_conversation_task(self):
         """
@@ -186,7 +184,7 @@ class AI(commands.Cog):
         de forma proactiva si el canal principal está activo.
         """
         # Probabilidad de iniciar la interacción para no ser demasiado intrusiva
-        if random.random() > 0.20:  # 60% de las veces no hace nada
+        if random.random() > 0.20:  # 70% de las veces no hace nada
             return
 
         logger.info("Tarea proactiva iniciada, buscando un servidor activo...")

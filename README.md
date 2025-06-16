@@ -3,8 +3,7 @@
 
 # Diami Bot - Edición Python 🐍
   
-Un bot de Discord versátil y multipropósito, reescrito desde cero en Python con un enfoque en el rendimiento, la escalabilidad y nuevas funcionalidades.
-
+Diami es bot de Discord versátil y multipropósito, reescrito desde cero en Python con un enfoque en el rendimiento, la escalabilidad y nuevas funcionalidades.
 
 <!-- Badges -->
 ![Status](https://img.shields.io/badge/Status-En%20Desarrollo-blue)
@@ -15,6 +14,10 @@ Un bot de Discord versátil y multipropósito, reescrito desde cero en Python co
 ![discord.py](https://img.shields.io/badge/discord.py-v2.3.2-blue?logo=discord&logoColor=white)
 [![Discord Server](https://discordapp.com/api/guilds/774727090188320808/embed.png)](https://discord.com/invite/3x8uMdpeHR)
 
+> [!NOTE]
+> Este proyecto está en desarrollo activo. Algunas funcionalidades pueden no estar completamente implementadas o pueden cambiar. 
+> Para más información ver la Hoja de Ruta 
+> ¡Tu feedback es muy bienvenido!
 ---
 ## ✨ Características Principales
 
@@ -26,7 +29,19 @@ Un bot de Discord versátil y multipropósito, reescrito desde cero en Python co
 | **📅 Tareas Programadas** | Publicaciones automáticas y eventos recurrentes, como el clásico meme de "Feliz Jueves". |
 | **🧩 Arquitectura Modular** | Código organizado en **Cogs** para una fácil expansión y mantenimiento. |
 
+---
+## 🚀 Uso y Configuración
 
+Una vez invitado a tu servidor, puedes empezar a interactuar con Diami.
+
+* `/config` - Configura los canales principales y de logs del servidor.
+* `/config toggle` - Activa o desactiva módulos específicos, como los logs de moderación.
+* `/help` - Muestra la lista de comandos disponibles. (No disponible aún)
+* Respondera en el canal principal cada vez que se le mencione.
+
+> [!IMPORTANT]  
+> Asegúrate de tener un servidor de MongoDB en funcionamiento y actualiza el archivo `.env` con la URI de conexión correcta. 
+> El bot creará automáticamente las colecciones necesarias al iniciar.
 ---
 ## 📖 Acerca del Proyecto
 
@@ -38,7 +53,7 @@ Este proyecto nace de varios motivos:
 3.  **Implementación de IA:** Mejorar la integración de la IA con el codigo.
 4.  **Optimizar el uso de Tasks:** Python tiene un mejor manejo del tiempo y de aplicación de tareas.
 
-El objetivo final es crear un asistente para servidores de Discord que no solo ofrezca las funcionalidades estándar, sino que también integre sistemas complejos de economía, juegos de rol, entretenimiento e inteligencia artificial con la API de Gemini.
+El objetivo final es crear un asistente para servidores de Discord que no solo ofrezca las funcionalidades estándar, sino que también integre sistemas complejos de economía, juegos de rol, entretenimiento e inteligencia artificial.
 
 ### Origen: De TypeScript a Python
 
@@ -72,7 +87,7 @@ Esta es la tecnológica que da vida a Diami:
 
 ---
 
-### Instalación
+### 💾 Instalación
 
 1.  **Clona el repositorio:**
     ```sh
@@ -120,62 +135,97 @@ Esta es la tecnológica que da vida a Diami:
 ## 🗺️ Hoja de Ruta (Roadmap)
 
 Esta es la lista de funcionalidades planificadas y su estado actual. ¡Hay mucho por hacer!
+    
+<details>
+<summary><strong>✅ Fundamentos del Bot (Completado)</strong></summary>
 
-- [x] **Fundamentos del Bot**
-  - [x] Comandos Slash
-  - [x] Logger para depuración
-  - [x] Task (Feliz jueves)
-- [ ] **Administration**
-  - [ ] Anti-Spam
-  - [ ] Anti-Raid
-- [ ] **Interacción Básica**
-  - [ ] Comandos de texto personalizados
-  - [x] Menús contextuales (Click derecho en usuario/mensaje)
-  - [ ] Mensajes de bienvenida y despedida personalizables
-- [ ] **Utilidades Avanzadas**
-  - [ ] Dashboard web para configuración
-  - [ ] Avatar animado (cambia según eventos o el día)
-- [ ] **Música**
-  - [ ] Reproducción desde YouTube, Spotify, etc.
-  - [ ] Cola de reproducción, control de volumen y efectos.
-- [ ] **Sistema de Niveles**
-  - [ ] Experiencia por enviar mensajes
-  - [ ] Experiencia por estar en canales de voz
-  - [ ] Comando `/leaderboard`
-  - [ ] Comando `/rank` para ver el nivel personal
-  - [ ] Notificaciones de subida de nivel con roles
-- [ ] **Sistema de Economía**
-  - [ ] **Fundamentos:**
-    - [ ] `/balance`, `/extract`, `/deposit`, `/daily`, `/pay`
-  - [ ] **Sistema de Empleos:**
-    - [ ] Trabajos con cooldown y diferentes pagos
-  - [ ] **Tienda y Objetos:**
-    - [ ] Compra de insignias (badges) para el perfil
-    - [ ] Compra de objetos de un solo uso o permanentes
-  - [ ] **Inventario:**
-    - [ ] Comando `/inventory` para ver los objetos
-- [ ] **Sistema de Rol (RPG)**
-  - [ ] Comando de dados (`/roll 1d20+5`)
-  - [ ] Hojas de personaje simplificadas
-  - [ ] Sistema de canales dedicados para partidas
-- [ ] **Juegos y Eventos**
-  - [ ] Gachapón (colección de personajes/objetos)
-  - [ ] Combate de héroes automático (Auto-battler)
-  - [ ] Tower Defense (Concepto en desarrollo)
-  - [ ] Eventos globales periódicos
-- [ ] **Módulos de Entretenimiento**
-  - [ ] Lectura de cartas del Tarot
-  - [ ] Mascota virtual para el servidor
-- [x] **Inteligencia Artificial** `(powered by Gemini)`
-  - [x] Implementación de IA conversacional 
-  - [x] Integracion en conversaciones de manera dinamica.
-  - [ ] Efemérides con IA e imagen generada.
+- [x] Comandos Slash.
+- [x] Logger para depuración.
+- [x] Configuración por servidor (con MongoDB).
+- [x] Historial de auditoría.
+- [x] Tareas programadas (`tasks`).
+- [x] Menús contextuales.
+- [x] Funciones activables/desactivables.
+</details>
+
+<details>
+<summary><strong>🛡️ Administración y Moderación</strong></summary>
+
+- [ ] Anti-Spam.
+- [ ] Anti-Flood.
+- [ ] Anti-Raid.
+- [ ] Comandos de moderación (`/mute`, `/unmute`, `/kick`, `/ban`).
+  - [ ] Aplicable también mediante menú contextual.
+</details>
+
+<details>
+<summary><strong>💬 Interacción y Utilidades</strong></summary>
+
+- [ ] Mensajes de bienvenida y despedida personalizables.
+- [ ] Comandos de ayuda (`/help`).
+- [ ] Comandos de información (`/serverinfo`, `/userinfo`).
+- [ ] Sistema de tarjeta de usuario (`/profile`).
+- [ ] Comandos de búsqueda (`/search`).
+- [ ] Dashboard web para configuración.
+- [ ] Avatar animado (cambia según eventos o el día).
+</details>
+
+<details>
+<summary><strong>🎵 Música</strong></summary>
+
+- [ ] Reproducción desde YouTube, Spotify, etc.
+- [ ] Cola de reproducción y control de volumen.
+</details>
+
+<details>
+<summary><strong>💰 Sistema de Economía</strong></summary>
+
+- [ ] **Fundamentos:** `/balance`, `/extract`, `/deposit`, `/daily`, `/pay`.
+- [ ] **Sistema de Empleos:** Trabajos con cooldown y diferentes pagos.
+- [ ] **Tienda y Objetos:** Compra de insignias (badges) y objetos.
+- [ ] **Inventario:** Comando `/inventory`.
+</details>
+
+<details>
+<summary><strong>🎲 Juegos y Eventos</strong></summary>
+
+- [ ] **Sistema de Rol (RPG):**
+  - [ ] Comando de dados (`/roll 1d20+5`).
+  - [ ] Hojas de personaje simplificadas.
+- [ ] **Juegos:**
+  - [ ] Gachapón (colección de personajes/objetos).
+  - [ ] Combate de héroes automático (Auto-battler).
+  - [ ] Tower Defense (Concepto en desarrollo).
+  - [ ] Lectura de cartas del Tarot.
+  - [ ] Mascota virtual para el servidor.
+- [ ] Eventos globales periódicos.
+</details>
+
+<details>
+<summary><strong>🧠 Inteligencia Artificial</strong></summary>
+
+- [x] Implementación de IA conversacional.
+- [x] Comportamiento proactivo, uniéndose a conversaciones.
+- [x] Soporte para imágenes y contexto visual.
+- [x] Respuestas personalizadas según contexto.
+- [ ] Generación de imágenes con IA.
+- [ ] Integración de IA para juegos y eventos.
+- [ ] Integración de IA para moderación de contenido.
+- [ ] Implementación de IA para usar comandos de forma natural.
+- [ ] Efemérides con IA (mediante `task` y/o comando).
+</details>
 
 ---
 
 ## 👤 Autor
 
 **Xardax**
-
 *   GitHub: [@Neodoomed](https://github.com/Neodoomed/)
 *   Enlace al Proyecto: [https://github.com/Neodoomed/DiamiPyBot](https://github.com/Neodoomed/DiamiPyBot)
+
+--- 
+
+## ✨Agradecimientos
+
+* A todos los que han contribuido al proyecto, ya sea con código, ideas o feedback.
+* A la comunidad de Discord de El Diagrama.

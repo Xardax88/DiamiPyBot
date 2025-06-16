@@ -2,8 +2,9 @@
 import logging
 import motor.motor_asyncio
 
-logger = logging.getLogger('discord')
+from ..schemas.guild_config import get_default_guild_config
 
+logger = logging.getLogger('discord')
 
 class DatabaseManager:
     def __init__(self, mongo_uri: str):
@@ -27,19 +28,13 @@ class DatabaseManager:
         """
         if await self.get_guild_config(guild_id):
             logger.info(f"La configuración para el Guild {guild_id} ya existe. No se creará una nueva.")
-            return False  # Retornamos False para indicar que no se creó nada nuevo
+            return False
 
-        default_config = {
-            "_id": guild_id,
-            "main_channel_id": None,
-            "log_channel_id": None,
-            "rules_channel_id": None,
-            "confession_channel_id": None,
-        }
+        default_config = get_default_guild_config(guild_id)
+
         await self.collection.insert_one(default_config)
         logger.info(f"Se ha creado la configuración inicial para el Guild {guild_id}.")
         return True  # Retornamos True para indicar que se creó una nueva configuración
-
 
     async def update_channel(self, guild_id: int, channel_type: str, channel_id: int):
         """
@@ -51,18 +46,36 @@ class DatabaseManager:
             channel_type (str): La clave del campo a actualizar (ej. 'main_channel_id').
             channel_id (int): El nuevo ID del canal.
         """
-        # Primero, verificamos si la configuración del guild existe.
-        config = await self.get_guild_config(guild_id)
+        default_values = get_default_guild_config(guild_id)
+        # Eliminamos el _id porque no debe estar en el operador $setOnInsert
+        del default_values["_id"]
 
-        # Si no existe, la creamos.
-        if not config:
-            logger.warning(
-                f"No se encontró configuración para Guild {guild_id}. Creando una nueva antes de actualizar.")
-            await self.create_guild_config(guild_id)
-
-        # Ahora que estamos seguros de que existe, realizamos la actualización.
         await self.collection.update_one(
             {"_id": guild_id},
-            {"$set": {channel_type: channel_id}}
+            {
+                "$set": {channel_type: channel_id},
+                "$setOnInsert": default_values
+            },
+            upsert=True
         )
         logger.info(f"Guild {guild_id}: Se actualizó '{channel_type}' a {channel_id}.")
+
+
+    async def update_feature_flag(self, guild_id: int, feature_name: str, status: bool):
+        """
+        Activa o desactiva una función específica para un servidor.
+
+        Args:
+            guild_id (int): El ID del servidor.
+            feature_name (str): La clave de la función (ej. 'history_channel_enabled').
+            status (bool): True para activar, False para desactivar.
+        """
+        # Usamos la notación de punto para actualizar un campo en un documento anidado.
+        update_key = f"features.{feature_name}"
+
+        await self.collection.update_one(
+            {"_id": guild_id},
+            {"$set": {update_key: status}},
+            upsert=True  # Si el documento no existe, se creará con esta actualización
+        )
+        logger.info(f"Guild {guild_id}: Flag '{feature_name}' establecido a {status}.")

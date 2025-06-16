@@ -79,7 +79,7 @@ class ConfessionModal(ui.Modal, title='📝 Confesión Anónima'):
             await interaction.response.send_message(
                 "Ocurrió un error al procesar tu confesión. Por favor, inténtalo de nuevo más tarde.", ephemeral=True)
 
-class General(commands.Cog):
+class General(commands.Cog, name="General"):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
         self.heresy_context_menu = app_commands.ContextMenu(

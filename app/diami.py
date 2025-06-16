@@ -16,7 +16,6 @@ logger = logging.getLogger('discord')
 class Diami(commands.Bot):
     """
     Clase principal para el bot Diami.
-    Hereda de commands.Bot para toda la funcionalidad básica.
     """
     def __init__(self, mongo_uri: str, guild_id: Optional[int] = None):
         intents = discord.Intents.default()
@@ -28,7 +27,7 @@ class Diami(commands.Bot):
         self.guild_id = guild_id
         self.db_manager = DatabaseManager(mongo_uri)
 
-        logger.info(f"Bot Diami inicializado. Guild de sincronización: {self.guild_id or 'Global'}")
+        logger.info(f"Diami inicializado. Guild de sincronización: {self.guild_id or 'Global'}")
 
     async def on_guild_join(self, guild: discord.Guild):
         logger.info(f"¡El bot ha sido añadido al servidor: {guild.name} (ID: {guild.id})!")
@@ -52,14 +51,14 @@ class Diami(commands.Bot):
                 log_channel_id = config.get("log_channel_id") if config else None
 
                 if log_channel_id:
-                    # Obtenemos el logger raíz para añadirle nuestro handler
+                    # Obtiene el logger raíz
                     root_logger = logging.getLogger()
-                    # Creamos y añadimos nuestro handler personalizado
+                    # Crea y añade handler personalizado
                     discord_handler = LoggingHandler(bot=self, channel_id=log_channel_id)
-                    # Establecemos un formato para los logs de Discord
+                    # Establece un formato para los logs de Discord
                     formatter = logging.Formatter('%(levelname)s - %(name)s - %(message)s')
                     discord_handler.setFormatter(formatter)
-                    # Establecemos el nivel. Por ejemplo, INFO y superior.
+                    # Establece el nivel. Por ejemplo, INFO y superior.
                     discord_handler.setLevel(logging.INFO)
 
                     root_logger.addHandler(discord_handler)
@@ -72,7 +71,7 @@ class Diami(commands.Bot):
                 logging.error(f"Error al configurar el DiscordLoggingHandler: {e}", exc_info=True)
 
         logger.info("--- Cargando Cogs ---")
-        # Buscamos todos los archivos .py en la carpeta 'cogs'
+        # Busca todos los archivos .py en la carpeta 'cogs'
         cogs_path = 'app.cogs'
         for filename in os.listdir('./app/cogs'):
             if filename.endswith('.py')  and not filename.startswith('__'):
@@ -87,15 +86,13 @@ class Diami(commands.Bot):
 
         if self.guild_id:
             guild = discord.Object(id=self.guild_id)
-            # Copiamos los comandos globales al árbol del guild
+            # Copia los comandos globales al árbol del guild
             self.tree.copy_global_to(guild=guild)
-            # Sincronizamos el árbol de comandos con el guild específico
+            # Sincroniza el árbol de comandos con el guild específico
             await self.tree.sync(guild=guild)
             logger.info(f"Comandos slash sincronizados con el Guild ID: {self.guild_id}")
         else:
-            # Si no hay GUILD_ID, sincronizamos globalmente.
+            # Si no hay GUILD_ID, sincroniza globalmente.
             # Puede tardar hasta una hora en reflejarse en todos los servidores.
             await self.tree.sync()
             logger.info("Comandos slash sincronizados globalmente.")
-
-
