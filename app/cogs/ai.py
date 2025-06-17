@@ -39,7 +39,12 @@ SALUDOS_COMUNES = [
 ]
 
 # ==============================================================================
-# Cog para la Inteligencia Artificial Diami
+# Configuración del modelo de Gemini
+# ==============================================================================
+MODEL = "gemini-2.0-flash-lite"  # Modelo de Gemini a utilizar
+
+# ==============================================================================
+# Inteligencia Artificial Diami
 # ==============================================================================
 class AI(commands.Cog, name="Inteligencia Artificial Diami"):
     """
@@ -72,11 +77,11 @@ class AI(commands.Cog, name="Inteligencia Artificial Diami"):
         }
 
         self.model = genai.GenerativeModel(
-            model_name="gemini-2.0-flash-lite",
+            model_name=MODEL,
             generation_config=self.generation_config,
             safety_settings=self.safety_settings,
         )
-        logger.info("Modelo de Gemini ('gemini-2.0-flash-lite') inicializado.")
+        logger.info(f"Modelo de Gemini {MODEL} inicializado.")
 
         self.personality_prompt = self._load_personality_prompt()
         if not self.personality_prompt:
