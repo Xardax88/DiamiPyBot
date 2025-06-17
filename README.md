@@ -1,26 +1,36 @@
+<h1 align="center">
+    <img src="docs/assets/diami_banner.png">
+    <br>
+    Diami Bot - Edición Python 🐍 
+    <br>
+</h1>
 
-![banner](docs/assets/diami_banner.png)
-
-# Diami Bot - Edición Python 🐍
-  
-Diami es un bot de Discord versátil y multipropósito, reescrito desde cero en Python.
+<h4 align="center"> Diami es un bot de Discord versátil y multipropósito, reescrito desde cero en Python. </h4>
 
 <!-- Badges -->
-![Status](https://img.shields.io/badge/Status-En%20Desarrollo-blue)
-![Last Commit](https://img.shields.io/github/last-commit/Neodoomed/DiamiPyBot)
-![Repo Size](https://img.shields.io/github/repo-size/Neodoomed/DiamiPyBot)
-![License](https://img.shields.io/github/license/Neodoomed/DiamiPyBot)
-![Python Ver](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)
-![discord.py](https://img.shields.io/badge/discord.py-v2.3.2-blue?logo=discord&logoColor=white)
-[![Code Style: Black](https://img.shields.io/badge/Code%20Style-Black-000000?logo=black&logoColor=white)](https://github.com/psf/black)
-[![Discord Server](https://discordapp.com/api/guilds/774727090188320808/embed.png)](https://discord.com/invite/3x8uMdpeHR)
+<p align="center">
+    <img src="https://img.shields.io/badge/Status-En%20Desarrollo-blue" alt="Staus">
+    <a href="https://github.com/Neodoomed/DiamiPyBot/releases">
+        <img src="https://img.shields.io/github/v/release/Neodoomed/DiamiPyBot?include_prereleases&label=version&color=blue" alt="Latest Release">
+    </a>
+    <img src="https://img.shields.io/github/last-commit/Neodoomed/DiamiPyBot" alt="Último Commit">
+    <img src="https://img.shields.io/github/repo-size/Neodoomed/DiamiPyBot" alt="Size">
+    <img src="https://img.shields.io/github/license/Neodoomed/DiamiPyBot" alt="Licencia">
+    <img src="https://img.shields.io/badge/Python-3.10%2B-blue?logo=python" alt="Versión de Python">
+    <img src="https://img.shields.io/badge/discord.py-v2.3.2-blue?logo=discord&logoColor=white" alt="discord.py">
+    <a href="https://github.com/psf/black">
+        <img src="https://img.shields.io/badge/Code%20Style-Black-000000.svg" alt="Code Style: Black">
+    </a>
+    <a href="https://discord.com/invite/3x8uMdpeHR">
+        <img src="https://img.shields.io/discord/774727090188320808?color=5865F2&logo=discord&logoColor=white" alt="Discord Server">
+    </a>
+</p>
 
 > [!NOTE]
-> Este proyecto está en desarrollo activo. Algunas funcionalidades pueden no estar completamente implementadas o pueden cambiar. 
-> Para más información ver la Hoja de Ruta 
+> Este proyecto está en desarrollo activo. Algunas funcionalidades pueden no estar completamente implementadas o pueden cambiar.  
 > ¡Tu feedback es muy bienvenido!
 ---
-## ✨ Características Principales
+# ✨ Características Principales
 
 | Característica | Descripción |
 | :---: | :--- |
@@ -31,7 +41,7 @@ Diami es un bot de Discord versátil y multipropósito, reescrito desde cero en 
 | **🧩 Arquitectura Modular** | Código organizado en **Cogs** para una fácil expansión y mantenimiento. |
 
 ---
-## 🚀 Uso y Configuración
+# 🚀 Uso y Configuración
 
 Una vez invitado a tu servidor, puedes empezar a interactuar con Diami.
 
@@ -44,7 +54,7 @@ Una vez invitado a tu servidor, puedes empezar a interactuar con Diami.
 > Asegúrate de tener un servidor de MongoDB en funcionamiento y actualiza el archivo `.env` con la URI de conexión correcta. 
 > El bot creará automáticamente las colecciones necesarias al iniciar.
 ---
-## 📖 Acerca del Proyecto
+# 📖 Acerca del Proyecto
 
 **Diami** es la nueva encarnación de mi bot personal de Discord, esta vez escrito completamente en **Python** utilizando la librería `discord.py`.
 
@@ -56,19 +66,19 @@ Este proyecto nace de varios motivos:
 
 El objetivo final es crear un asistente para servidores de Discord que no solo ofrezca las funcionalidades estándar, sino que también integre sistemas complejos de economía, juegos de rol, entretenimiento e inteligencia artificial.
 
-### Origen: De TypeScript a Python
+## Origen: De TypeScript a Python
 
 La versión original de Diami fue desarrollada en **TypeScript**. Si bien fue un excelente proyecto para aprender y validar conceptos, la migración a Python se realizó por varias razones estratégicas:
 
 1.  **Ecosistema de IA y Machine Learning:** Python es el lenguaje líder indiscutible en el campo de la IA. La integración con librerías como `google-generativeai` y el acceso a un vasto ecosistema de herramientas de data science es nativa y mucho más sencilla.
-2.  **Facilidad y Rapidez de Desarrollo:** La sintaxis limpia  de Python permiten un desarrollo más ágil y un código más legible, ideal para un proyecto con una hoja de ruta tan ambiciosa.
+2.  **Facilidad y Rapidez de Desarrollo:** La sintaxis limpia de Python permiten un desarrollo más ágil y un código más legible, ideal para un proyecto con una hoja de ruta tan ambiciosa.
 3.  **Rendimiento y Manejo de Concurrencia:** Con `asyncio` como pilar, `discord.py` ofrece un manejo de la concurrencia extremadamente eficiente y maduro, perfecto para un bot que debe manejar cientos de eventos simultáneos.
 4.  **Optimización de Hosting:** Este cambio también fue motivado por la necesidad de migrar desde plataformas de hosting (como Railway) que comenzaban a tener un costo elevado, hacia soluciones más personalizadas y rentables como un servidor dedicado.
 5.  **Crecimiento Personal:** Poner en práctica y profundizar mis conocimientos en el ecosistema de Python, creando un bot más robusto y con una base de código profesional.
 <!-- Aquí es un excelente lugar para una captura de pantalla de un comando en acción -->
 <!-- ![Ejemplo del Bot](URL_DE_LA_CAPTURA_DE_PANTALLA.png) -->
 
-### 🛠️ Construido Con
+## 🛠️ Construido Con
 
 Esta es la tecnológica que da vida a Diami:
 
@@ -87,8 +97,7 @@ Esta es la tecnológica que da vida a Diami:
     *   ![Fedora Server](https://img.shields.io/badge/Fedora%20Server-51A2DA?style=for-the-badge&logo=fedora&logoColor=white)
 
 ---
-
-### 💾 Instalación
+## 💾 Instalación
 
 1.  **Clona el repositorio:**
     ```sh
@@ -132,8 +141,7 @@ Esta es la tecnológica que da vida a Diami:
     ```
 
 ---
-
-## 🗺️ Hoja de Ruta (Roadmap)
+# 🗺️ Hoja de Ruta (Roadmap)
 
 Esta es la lista de funcionalidades planificadas y su estado actual. ¡Hay mucho por hacer!
     
@@ -217,16 +225,7 @@ Esta es la lista de funcionalidades planificadas y su estado actual. ¡Hay mucho
 </details>
 
 ---
-
-## 👤 Autor
-
-**Xardax**
-*   GitHub: [@Neodoomed](https://github.com/Neodoomed/)
-*   Enlace al Proyecto: [https://github.com/Neodoomed/DiamiPyBot](https://github.com/Neodoomed/DiamiPyBot)
-
---- 
-
-## ✨Agradecimientos
+# ✨Agradecimientos
 
 * A todos los que han contribuido al proyecto, ya sea con código, ideas o feedback.
 * A la comunidad de Discord de El Diagrama.
