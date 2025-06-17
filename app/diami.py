@@ -48,7 +48,6 @@ class Diami(commands.Bot):
         logger.info("------")
 
         await self.change_presence(
-            status=discord.Status.Online,
             activity=discord.CustomActivity(
                 name="🐍 Lista para matar a dios, o convertirme en el!",
             ),
