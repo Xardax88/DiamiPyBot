@@ -22,8 +22,12 @@ import os
 import logging
 import asyncio
 from dotenv import load_dotenv
-
 from app import Diami
+from nicegui import ui
+
+import dashboard.dash
+
+SESSION_SECRET = os.getenv("SESSION_SECRET_KEY")
 
 # ==============================================================================
 # Configuración del logging
