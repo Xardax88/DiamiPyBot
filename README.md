@@ -10,12 +10,12 @@
 <!-- Badges -->
 <p align="center">
     <img src="https://img.shields.io/badge/Status-En%20Desarrollo-blue" alt="Staus">
-    <a href="https://github.com/Neodoomed/DiamiPyBot/releases">
-        <img src="https://img.shields.io/github/v/release/Neodoomed/DiamiPyBot?include_prereleases&label=version&color=blue" alt="Latest Release">
+    <a href="https://github.com/Xardax88/DiamiPyBot/releases">
+        <img src="https://img.shields.io/github/v/release/Xardax88/DiamiPyBot?include_prereleases&label=version&color=blue" alt="Latest Release">
     </a>
-    <img src="https://img.shields.io/github/last-commit/Neodoomed/DiamiPyBot" alt="Último Commit">
-    <img src="https://img.shields.io/github/repo-size/Neodoomed/DiamiPyBot" alt="Size">
-    <img src="https://img.shields.io/github/license/Neodoomed/DiamiPyBot" alt="Licencia">
+    <img src="https://img.shields.io/github/last-commit/Xardax88/DiamiPyBot" alt="Último Commit">
+    <img src="https://img.shields.io/github/repo-size/Xardax88/DiamiPyBot" alt="Size">
+    <img src="https://img.shields.io/github/license/Xardax88/DiamiPyBot" alt="Licencia">
     <img src="https://img.shields.io/badge/Python-3.10%2B-blue?logo=python" alt="Versión de Python">
     <img src="https://img.shields.io/badge/discord.py-v2.3.2-blue?logo=discord&logoColor=white" alt="discord.py">
     <a href="https://github.com/psf/black">
