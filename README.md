@@ -1,12 +1,16 @@
-![Banner](docs/assets/diami_banner.png)
+<div align="center">
 
+![Banner](docs/assets/diami_banner.png)
 # Diami Bot - Edición Python 🐍 
 
 ---
 
-### Diami es un bot de Discord versátil y multipropósito, reescrito desde cero en Python.
+Diami es un bot de Discord versátil y multipropósito, reescrito desde cero en Python.
+
+</div>
 
 <!-- Badges -->
+
 <div align="center">
 
 [![Status](https://img.shields.io/badge/Status-En%20Desarrollo-blue)]()
@@ -21,9 +25,10 @@
 [![Discord Server](https://img.shields.io/discord/774727090188320808?color=5865F2&logo=discord&logoColor=white)](https://discord.com/invite/3x8uMdpeHR)
 
 </div>
+
 > [!NOTE]
 > Este proyecto está en desarrollo activo. Algunas funcionalidades pueden no estar completamente implementadas o pueden cambiar.  
-> ¡Tu feedback es muy bienvenido!
+
 ---
 # ✨ Características Principales
 
@@ -70,8 +75,6 @@ La versión original de Diami fue desarrollada en **TypeScript**. Si bien fue un
 3.  **Rendimiento y Manejo de Concurrencia:** Con `asyncio` como pilar, `discord.py` ofrece un manejo de la concurrencia extremadamente eficiente y maduro, perfecto para un bot que debe manejar cientos de eventos simultáneos.
 4.  **Optimización de Hosting:** Este cambio también fue motivado por la necesidad de migrar desde plataformas de hosting (como Railway) que comenzaban a tener un costo elevado, hacia soluciones más personalizadas y rentables como un servidor dedicado.
 5.  **Crecimiento Personal:** Poner en práctica y profundizar mis conocimientos en el ecosistema de Python, creando un bot más robusto y con una base de código profesional.
-<!-- Aquí es un excelente lugar para una captura de pantalla de un comando en acción -->
-<!-- ![Ejemplo del Bot](URL_DE_LA_CAPTURA_DE_PANTALLA.png) -->
 
 ## 🛠️ Construido Con
 
