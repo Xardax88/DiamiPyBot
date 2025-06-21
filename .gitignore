@@ -15,6 +15,7 @@ sdist/
 *.whl
 
 # Environments
+.nicegui/
 .env
 venv/
 env/
