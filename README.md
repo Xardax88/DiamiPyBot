@@ -1,11 +1,12 @@
 <div align="center">
 
-![Banner](docs/assets/diami_banner.png)
-# Diami Bot - Edición Python 🐍 
+![Banner](docs/assets/diami_banner2.png)
+# Diami Bot - Edición Python 🐍
 
----
 
 Diami es un bot de Discord versátil y multipropósito, reescrito desde cero en Python.
+
+---
 
 </div>
 
@@ -13,12 +14,13 @@ Diami es un bot de Discord versátil y multipropósito, reescrito desde cero en 
 
 <div align="center">
 
-[![Status](https://img.shields.io/badge/Status-En%20Desarrollo-blue)]()
+![Status](https://img.shields.io/badge/Status-En%20Desarrollo-blue)
 [![Última Versión](https://img.shields.io/github/v/release/Xardax88/DiamiPyBot?include_prereleases&label=version&color=blue)](https://github.com/Xardax88/DiamiPyBot/releases)
 ![Último Commit](https://img.shields.io/github/last-commit/Xardax88/DiamiPyBot)
 ![Tamaño del Repo](https://img.shields.io/github/repo-size/Xardax88/DiamiPyBot)
-![Licencia](https://img.shields.io/github/license/Xardax88/DiamiPyBot)
-![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)
+[![Licencia](https://img.shields.io/github/license/Xardax88/DiamiPyBot)](LICENSE)
+![Python Version](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-4.4%2B-green?logo=mongodb&logoColor=white)
 ![discord.py](https://img.shields.io/badge/discord.py-v2.3.2-blue?logo=discord&logoColor=white)
 [![Code Style: Black](https://img.shields.io/badge/Code%20Style-Black-000000.svg)](https://github.com/psf/black)
 [![El Diagrama](https://img.shields.io/badge/El%20Diagrama-orange?style=flat)](https://discord.com/invite/3x8uMdpeHR)
@@ -239,6 +241,7 @@ Esta es la lista de funcionalidades planificadas y su estado actual. ¡Hay mucho
 
 * A todos los que han contribuido al proyecto, ya sea con código, ideas o feedback.
 * A la comunidad de Discord de El Diagrama.
+* Las incontables latas de Monster que me han mantenido despierto durante el desarrollo.
 
 ---
 # 📜 Licencia
