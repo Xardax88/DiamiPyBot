@@ -1,31 +1,26 @@
-<h1 align="center">
-    <img src="docs/assets/diami_banner.png">
-    <br>
-    Diami Bot - Edición Python 🐍 
-    <br>
-</h1>
+![Banner](docs/assets/diami_banner.png)
 
-<h4 align="center"> Diami es un bot de Discord versátil y multipropósito, reescrito desde cero en Python. </h4>
+# Diami Bot - Edición Python 🐍 
+
+---
+
+### Diami es un bot de Discord versátil y multipropósito, reescrito desde cero en Python.
 
 <!-- Badges -->
-<p align="center">
-    <img src="https://img.shields.io/badge/Status-En%20Desarrollo-blue" alt="Staus">
-    <a href="https://github.com/Neodoomed/DiamiPyBot/releases">
-        <img src="https://img.shields.io/github/v/release/Neodoomed/DiamiPyBot?include_prereleases&label=version&color=blue" alt="Latest Release">
-    </a>
-    <img src="https://img.shields.io/github/last-commit/Neodoomed/DiamiPyBot" alt="Último Commit">
-    <img src="https://img.shields.io/github/repo-size/Neodoomed/DiamiPyBot" alt="Size">
-    <img src="https://img.shields.io/github/license/Neodoomed/DiamiPyBot" alt="Licencia">
-    <img src="https://img.shields.io/badge/Python-3.10%2B-blue?logo=python" alt="Versión de Python">
-    <img src="https://img.shields.io/badge/discord.py-v2.3.2-blue?logo=discord&logoColor=white" alt="discord.py">
-    <a href="https://github.com/psf/black">
-        <img src="https://img.shields.io/badge/Code%20Style-Black-000000.svg" alt="Code Style: Black">
-    </a>
-    <a href="https://discord.com/invite/3x8uMdpeHR">
-        <img src="https://img.shields.io/discord/774727090188320808?color=5865F2&logo=discord&logoColor=white" alt="Discord Server">
-    </a>
-</p>
+<div align="center">
 
+[![Status](https://img.shields.io/badge/Status-En%20Desarrollo-blue)]()
+[![Última Versión](https://img.shields.io/github/v/release/Xardax88/DiamiPyBot?include_prereleases&label=version&color=blue)](https://github.com/Xardax88/DiamiPyBot/releases)
+![Último Commit](https://img.shields.io/github/last-commit/Xardax88/DiamiPyBot)
+![Tamaño del Repo](https://img.shields.io/github/repo-size/Xardax88/DiamiPyBot)
+![Licencia](https://img.shields.io/github/license/Xardax88/DiamiPyBot)
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)
+![discord.py](https://img.shields.io/badge/discord.py-v2.3.2-blue?logo=discord&logoColor=white)
+[![Code Style: Black](https://img.shields.io/badge/Code%20Style-Black-000000.svg)](https://github.com/psf/black)
+[![El Diagrama](https://img.shields.io/badge/El%20Diagrama-orange?style=flat)](https://discord.com/invite/3x8uMdpeHR)
+[![Discord Server](https://img.shields.io/discord/774727090188320808?color=5865F2&logo=discord&logoColor=white)](https://discord.com/invite/3x8uMdpeHR)
+
+</div>
 > [!NOTE]
 > Este proyecto está en desarrollo activo. Algunas funcionalidades pueden no estar completamente implementadas o pueden cambiar.  
 > ¡Tu feedback es muy bienvenido!
@@ -168,10 +163,22 @@ Esta es la lista de funcionalidades planificadas y su estado actual. ¡Hay mucho
 </details>
 
 <details>
+<summary><strong>🎚️ Dashboard y Landing page</strong></summary>
+
+- [x] Página de inicio (landing page) para el bot.
+- [ ] Dashboard web para configuración del bot.
+- [x] Integración con OAuth2 para autenticación de usuarios.
+- [ ] Configuración de módulos y comandos desde el dashboard.
+- [ ] Visualización de estadísticas del bot y del servidor.
+- [ ] Personalización de la apariencia del bot.
+
+</details>
+
+<details>
 <summary><strong>💬 Interacción y Utilidades</strong></summary>
 
 - [ ] Mensajes de bienvenida y despedida personalizables.
-- [ ] Comandos de ayuda (`/help`).
+- [x] Comandos de ayuda (`/help`).
 - [ ] Comandos de información (`/serverinfo`, `/userinfo`).
 - [ ] Sistema de tarjeta de usuario (`/profile`).
 - [ ] Comandos de búsqueda (`/search`).
@@ -229,3 +236,7 @@ Esta es la lista de funcionalidades planificadas y su estado actual. ¡Hay mucho
 
 * A todos los que han contribuido al proyecto, ya sea con código, ideas o feedback.
 * A la comunidad de Discord de El Diagrama.
+
+---
+# 📜 Licencia
+Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.

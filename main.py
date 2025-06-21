@@ -1,22 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
-"""
-Diami Bot - Edición Python
-
-Este archivo es el punto de entrada principal para el bot de Discord "Diami".
-Se encarga de las siguientes tareas:
-1. Cargar las variables de entorno desde el archivo .env.
-2. Configurar el sistema de logging para la consola y los archivos.
-3. Instanciar la clase principal del bot (Diami).
-4. Iniciar la conexión del bot con la API de Discord.
-
-Project: DiamiPyBot
-Author: Xardax (Maximiliano Paragoni)
-
-Copyright (c) 2025-presente, Xardax (Maximiliano Paragoni)
-Licenciado bajo la Licencia MIT.
-"""
+# ==============================================================================
+# main.py
+# ------------------------------------------------------------------------------
+# Punto de entrada principal para el bot de Discord "Diami" (Edición Python).
+# - Carga variables de entorno y configura logging.
+# - Instancia y ejecuta el bot principal (Diami).
+# - Inicia la interfaz web NiceGUI y el dashboard.
+#
+# Autor: Xardax (Maximiliano Paragoni)
+# Proyecto: DiamiPyBot
+# Fecha: 2025
+# Licencia: MIT
+# ==============================================================================
 
 import os
 import logging
@@ -28,6 +24,7 @@ from nicegui import ui
 import dashboard.dash
 
 SESSION_SECRET = os.getenv("SESSION_SECRET_KEY")
+
 
 # ==============================================================================
 # Configuración del logging
@@ -59,6 +56,7 @@ def setup_logging():
     logging.getLogger().addHandler(file_handler)
     logging.getLogger().addHandler(console_handler)
 
+
 # ==============================================================================
 # Función principal del bot
 # ==============================================================================
@@ -87,6 +85,7 @@ async def main():
 
     async with bot:
         await bot.start(TOKEN)
+
 
 # ==============================================================================
 # Punto de entrada del script

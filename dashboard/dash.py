@@ -1,5 +1,4 @@
 # dashboard/dash.py
-
 """
 Dashboard para Discord usando NiceGUI y OAuth2
 
@@ -33,7 +32,17 @@ SCOPES = ["identify", "guilds"]
 # Configuración de la interfaz NiceGUI
 # ==============================================================================
 ui.page_title("Diami Py Bot")
-# ui.add_head_html('<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐱</text></svg>">')
+
+ui.add_body_html(
+    """
+<script>
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (localStorage.getItem('user.dark_mode') === null) {
+        localStorage.setItem('user.dark_mode', prefersDark ? 'true' : 'false');
+    }
+</script>
+"""
+)
 
 
 # ==============================================================================
@@ -47,9 +56,34 @@ def get_user_data_from_token(token: str):
 
 
 # ==============================================================================
-# Recursos estáticos
+# Recursos
 # ==============================================================================
+
+# ---- Ruta del avatar de Diami ----
 avatar_bot = "assets/diami_avatar.png"
+
+
+# ---- Botón de modo oscuro con ícono dinámico ----
+def dark_mode_toggle_button():
+    """Crea un botón que alterna entre modo oscuro y claro con ícono dinámico."""
+    dark_mode = ui.dark_mode().bind_value(app.storage.user, "dark_mode")
+
+    # Definir el ícono inicial según el modo actual
+    icono_inicial = "dark_mode" if dark_mode.value else "light_mode"
+
+    # Crear el botón con ícono
+    boton = ui.button(icon=icono_inicial, on_click=lambda: toggle()).props(
+        "flat round color=white"
+    )
+
+    # Función de alternancia que también cambia el ícono
+    def toggle():
+        dark_mode.toggle()
+        nuevo_icono = "dark_mode" if dark_mode.value else "light_mode"
+        boton.props(f"icon={nuevo_icono}")
+
+    return boton
+
 
 # ==============================================================================
 # Rutas de la aplicación
@@ -153,20 +187,20 @@ def header():
     """
     with ui.header().classes(
         "px-6 lg:px-16 py-4 flex justify-between items-center z-50 "
-        "bg-[rgba(30,30,30,0.6)] backdrop-blur-md shadow-md "
-        "shadow-md border-b border-gray-800"
+        "bg-[rgba(90,90,90,0.6)] dark:bg-[rgba(30,30,30,0.6)] "
+        "backdrop-blur-md shadow-md shadow-md border-b border-gray-500"
     ):
 
         # ---- Sección Izquierda: Logo + Menú ----
         with ui.row().classes("items-center gap-6"):
 
             # Logo del bot
-            ui.image(avatar_bot).classes(
-                "w-[40px] h-[40px] rounded-full object-cover"
-            ).style(
-                "box-shadow: 0 0 10px 2px rgba(255, 105, 180, 0.4); transition: transform 0.3s ease-in-out;"
-            )
-            ui.label("Diami").classes("text-2xl font-bold text-white")
+            with ui.avatar(color="rgba(0,0,0,0.1)").style(
+                "box-shadow: 0 0 10px 2px rgba(255, 105, 180, 0.4)"
+            ):
+                ui.image(avatar_bot)
+
+            ui.label("Diami").classes("text-2xl font-bold text-black dark:text-white")
 
             # Menú de navegación
             """
@@ -191,14 +225,11 @@ def header():
                     ui.menu_item("English (EN)")
 
             # Modo oscuro
-            dark_mode = ui.dark_mode()
-            dark_mode.value = True
-            ui.button(icon="dark_mode", on_click=dark_mode.toggle).props(
-                "flat round color=white"
-            )
+
+            dark_mode_toggle_button()
 
             # Botón de login con estilo
-            ui.button("LOGIN", icon="fab fa-discord").props(
+            ui.button("LOGIN", icon="person").props(
                 "color=indigo-7 rounded-lg"
             ).classes("font-semibold text-white px-4 py-2")
 
@@ -223,24 +254,36 @@ def landing_page():
             with ui.column().classes("flex flex-1 flex-col lg:mr-[5rem]"):
                 # Título principal
                 ui.label("La bibliotecaria de").classes(
-                    "text-4xl lg:text-6xl font-bold text-white text-center lg:text-left"
+                    "text-center text-4xl font-bold lg:mb-6 lg:text-left lg:text-6xl"
                 )
                 ui.label("El Diagrama").classes(
-                    "text-4xl lg:text-6xl font-bold text-white text-center lg:text-left"
+                    "text-center text-4xl font-bold lg:mb-6 lg:text-left lg:text-6xl"
                 )
                 # Subtítulo descriptivo
                 ui.label("Chat, economía, juegos, utilidades y mucho más").classes(
-                    "text-xl lg:text-2xl text-gray-400 text-center lg:text-left"
+                    "mb-6 text-center text-2xl text-foreground/70 lg:text-left"
                 )
                 # Botones de acción
                 with ui.row().classes("justify-center lg:justify-start gap-4 mt-4"):
                     ui.button("Añadir a la bot", icon="fab fa-discord").props(
-                        "size=lg color=pink-5 no-caps"
-                    ).classes("font-bold rounded-xl px-6 py-3")
+                        " color=orange-9 no-caps"
+                    ).classes(
+                        "inline-flex items-center justify-center whitespace-nowrap font-medium ring-offset-background "
+                        "transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring "
+                        "focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border "
+                        "border-input bg-background hover:bg-accent hover:text-accent-foreground "
+                        "active:bg-accent/80 h-11 rounded-md px-8 group relative"
+                    )
 
                     ui.button("Gestionar servidores", icon="settings").props(
-                        "outline size=lg no-caps color=white"
-                    ).classes("rounded-xl px-6 py-3")
+                        "outline no-caps color=grey-8"
+                    ).classes(
+                        "inline-flex items-center justify-center whitespace-nowrap font-medium ring-offset-background "
+                        "transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring "
+                        "focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border "
+                        "border-input bg-background hover:bg-accent hover:text-accent-foreground "
+                        "active:bg-accent/80 h-11 rounded-md px-8 group relative"
+                    )
 
             # Sección de avatar (columna derecha en desktop)
             with ui.column().classes("relative mb-10 lg:mb-0"):
@@ -260,17 +303,19 @@ def landing_page():
 # ---- Sección de Características ----
 def trust_section():
     with ui.column().classes(
-        "w-full items-center gap-6 py-24 bg-[#121212] text-center"
+        "w-full items-center gap-6 py-24 bg-[#e0e0e0] text-center dark:bg-[#101010]"
     ):
         with ui.column().classes("mx-auto max-w-7xl px-4 py-12"):
             with ui.column().classes("mb-10 text-center"):
                 ui.label(
-                    "Diami es la nueva encarnación del bot de El Diagrama, esta vez escrito completamente en Python."
-                ).classes("text-3xl font-bold lg:text-4xl")
+                    "Diami es la nueva encarnación del bot de El Diagrama, esta vez escrito completamente en Python 🐍."
+                ).classes("text-3xl font-bold lg:text-4xl dark:text-white")
 
                 ui.label(
                     "Creada para El Diagrama y comunidades de Discord que quieran sumarla."
-                ).classes("mx-auto mt-4 max-w-2xl text-lg text-foreground/70")
+                ).classes(
+                    "text-grey-500 mx-auto mt-4 max-w-2xl text-lg text-foreground/70 dark:text-gray-400"
+                )
 
             with ui.row().classes(
                 "grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4"
@@ -283,15 +328,25 @@ def trust_section():
                         "Disfruta de la compañía de una amigable elfa que llena de alegría tu servidor",
                     ),
                     (
+                        "code",
+                        "Slash Commands",
+                        "Utiliza comandos slash para interactuar fácilmente con Diami",
+                    ),
+                    (
+                        "gamepad",
+                        "Economía y Juegos",
+                        "Participa en juegos y actividades con tus amigos",
+                    ),
+                    (
                         "auto_graph",
                         "Funciones Innovadoras",
-                        "En constante evolución con nuevas capacidades para satisfacer tus necesidades",
+                        "En constante evolución con nuevas capacidades y mejoras",
                     ),
                 ]
 
                 for icon, title, desc in features:
                     with ui.card().tight().classes(
-                        "bg-[#1b1b1b] w-[250px] text-white p-6 rounded-xl shadow-md hover:scale-105 transition-transform"
+                        "bg-[#f5f5f5] dark:bg-[#050505] w-[250px] h-[200px] text-white p-6 rounded-xl shadow-md hover:scale-105 transition-transform"
                     ):
                         ui.icon(icon).classes("text-pink-400 text-4xl mb-4")
                         ui.label(title).classes("font-bold text-lg mb-2")
@@ -386,4 +441,4 @@ def footer():
 # ==============================================================================
 # Iniciar la aplicación NiceGUI
 # ==============================================================================
-ui.run(dark=True, storage_secret=SESSION_SECRET, title="Diami Py Bot")
+ui.run(storage_secret=SESSION_SECRET, title="Diami Py Bot")
