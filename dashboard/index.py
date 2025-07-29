@@ -99,5 +99,5 @@ async def logout(request: Request):
 # ==============================================================================
 # Iniciar la aplicación NiceGUI
 # ==============================================================================
-
-ui.run(storage_secret=SESSION_SECRET, title="Diami Py Bot")
+if __name__ == "__main__":
+    ui.run(storage_secret=SESSION_SECRET, title="Diami Py Bot")

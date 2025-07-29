@@ -22,14 +22,18 @@ Diami es un bot de Discord versátil y multipropósito, reescrito desde cero en 
 ![Python Version](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-4.4%2B-green?logo=mongodb&logoColor=white)
 ![discord.py](https://img.shields.io/badge/discord.py-v2.3.2-blue?logo=discord&logoColor=white)
+![Gemini](https://img.shields.io/badge/Google%20Gemini-8E77F0?style=flat&logo=google-gemini&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
 [![Code Style: Black](https://img.shields.io/badge/Code%20Style-Black-000000.svg)](https://github.com/psf/black)
 [![El Diagrama](https://img.shields.io/badge/El%20Diagrama-orange?style=flat)](https://discord.com/invite/3x8uMdpeHR)
 [![Discord Server](https://img.shields.io/discord/774727090188320808?color=5865F2&logo=discord&logoColor=white)](https://discord.com/invite/3x8uMdpeHR)
 
 </div>
 
-> [!NOTE]
-> Este proyecto está en desarrollo activo. Algunas funcionalidades pueden no estar completamente implementadas o pueden cambiar.  
+> -Saludos, mortales! Soy Diami, elfa bibliotecaria y miembro de 'El Diagrama'. Si te cruzás conmigo, probablemente 
+> me encuentres entre libros antiguos, debates sobre RPGs, o simplemente disfrutando de un buen café negro.
+> Soy más vieja que la mayoría de los problemas que existen por acá, pero eso no significa que no me mantenga al tanto 
+> de las últimas novedades geek. Si necesitás una mano, o simplemente querés charlar, no dudes en contactarme.
 
 ---
 # ✨ Características Principales
@@ -72,29 +76,32 @@ El objetivo final es crear un asistente para servidores de Discord que no solo o
 
 La versión original de Diami fue desarrollada en **TypeScript**. Si bien fue un excelente proyecto para aprender y validar conceptos, la migración a Python se realizó por varias razones estratégicas:
 
-1.  **Ecosistema de IA y Machine Learning:** Python es el lenguaje líder indiscutible en el campo de la IA. La integración con librerías como `google-generativeai` y el acceso a un vasto ecosistema de herramientas de data science es nativa y mucho más sencilla.
-2.  **Facilidad y Rapidez de Desarrollo:** La sintaxis limpia de Python permiten un desarrollo más ágil y un código más legible, ideal para un proyecto con una hoja de ruta tan ambiciosa.
-3.  **Rendimiento y Manejo de Concurrencia:** Con `asyncio` como pilar, `discord.py` ofrece un manejo de la concurrencia extremadamente eficiente y maduro, perfecto para un bot que debe manejar cientos de eventos simultáneos.
-4.  **Optimización de Hosting:** Este cambio también fue motivado por la necesidad de migrar desde plataformas de hosting (como Railway) que comenzaban a tener un costo elevado, hacia soluciones más personalizadas y rentables como un servidor dedicado.
-5.  **Crecimiento Personal:** Poner en práctica y profundizar mis conocimientos en el ecosistema de Python, creando un bot más robusto y con una base de código profesional.
+1.  **Ecosistema de IA y Machine Learning:** Python es el lenguaje líder indiscutible en el campo de la IA. La integración con librerías como `google-generativeai`.
+2.  **Sistema de logger y auditoría:** La implementación de un sistema de logger y auditoría es más sencilla y directa en Python, lo que permite una mejor trazabilidad de las acciones del bot y facilitar la localización de errores o bugs.
+3.  **Facilidad y Rapidez de Desarrollo:** La sintaxis limpia de Python permiten un desarrollo más ágil y un código más legible, ideal para un proyecto con una hoja de ruta tan ambiciosa.
+4.  **Rendimiento y Manejo de Concurrencia:** Con `asyncio` como pilar, `discord.py` ofrece un manejo de la concurrencia extremadamente eficiente y maduro, perfecto para un bot que debe manejar cientos de eventos simultáneos.
+5.  **Optimización de Hosting:** Este cambio también fue motivado por la necesidad de migrar desde plataformas de hosting (como Railway) que comenzaban a tener un costo elevado, hacia soluciones más personalizadas y rentables como un servidor dedicado.
+6.  **Crecimiento Personal:** Poner en práctica y profundizar mis conocimientos en el ecosistema de Python, creando un bot más robusto y con una base de código profesional.
 
 ## 🛠️ Construido Con
 
 Esta es la tecnológica que da vida a Diami:
 
 *   **Lenguaje Principal:**
-    *   ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-*   **Framework de Discord:**
-    *   ![discord.py](https://img.shields.io/badge/discord.py-5865F2?style=for-the-badge&logo=discord&logoColor=white)
+    * ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+*   **Frameworks:**
+    * ![discord.py](https://img.shields.io/badge/discord.py-5865F2?style=for-the-badge&logo=discord&logoColor=white)
+    * ![NiceGUI](https://img.shields.io/badge/NiceGUI-000000?style=for-the-badge&logo=nicegui&logoColor=white)
 *   **Base de Datos:**
-    *   ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white) (con `motor` para operaciones asíncronas)
+    * ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white) 
 *   **IA:**
-    *   ![Gemini](https://img.shields.io/badge/Google%20Gemini-8E77F0?style=for-the-badge&logo=google-gemini&logoColor=white)
+    * ![Gemini](https://img.shields.io/badge/Google%20Gemini-8E77F0?style=for-the-badge&logo=google-gemini&logoColor=white)
 *   **IDE**
-    *   ![PyCharm](https://img.shields.io/badge/pycharm-143?style=for-the-badge&logo=pycharm&logoColor=black&color=black&labelColor=green)
+    * ![PyCharm](https://img.shields.io/badge/pycharm-143?style=for-the-badge&logo=pycharm&logoColor=black&color=black&labelColor=green)
 *   **Despliegue y Hosting:**
-    *   ![Railway](https://img.shields.io/badge/Railway-131415?style=for-the-badge&logo=railway&logoColor=white)
-    *   ![Fedora Server](https://img.shields.io/badge/Fedora%20Server-51A2DA?style=for-the-badge&logo=fedora&logoColor=white)
+    * ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+    * ![Railway](https://img.shields.io/badge/Railway-131415?style=for-the-badge&logo=railway&logoColor=white)
+    * ![Fedora Server](https://img.shields.io/badge/Fedora%20Server-51A2DA?style=for-the-badge&logo=fedora&logoColor=white)
 
 ---
 ## 💾 Instalación
