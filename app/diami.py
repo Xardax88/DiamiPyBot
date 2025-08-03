@@ -26,6 +26,7 @@ class Diami(commands.Bot):
         intents = discord.Intents.default()
         intents.message_content = True
         intents.guilds = True
+        intents.members = True
 
         super().__init__(command_prefix=">", intents=intents)
 
@@ -45,7 +46,6 @@ class Diami(commands.Bot):
     async def on_ready(self):
 
         logger.info(f"Conectado como {self.user} (ID: {self.user.id})")
-        logger.info("------")
 
         await self.change_presence(
             activity=discord.CustomActivity(
@@ -116,6 +116,5 @@ class Diami(commands.Bot):
             )
         else:
             # Si no hay GUILD_ID, sincroniza globalmente.
-            # Puede tardar hasta una hora en reflejarse en todos los servidores.
             await self.tree.sync()
             logger.info("Comandos slash sincronizados globalmente.")

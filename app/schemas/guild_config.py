@@ -1,6 +1,7 @@
 # app/schemas/guild_config.py
 from .feature_flags import get_default_feature_flags
 
+
 # ==============================================================================
 # Esquema de configuración del servidor (guild)
 # ==============================================================================
@@ -20,6 +21,6 @@ def get_default_guild_config(guild_id: int) -> dict:
         "history_channel_id": None,
         "confession_channel_id": None,
         "report_channel_id": None,
-
+        "suggestion_channel_id": None,
         "features": get_default_feature_flags(),
     }

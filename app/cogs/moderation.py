@@ -118,6 +118,70 @@ class Moderation(commands.Cog, name="Moderation"):
                 ephemeral=True,
             )
 
+    # --- Sistema de Sugerencias y Reclamos---
+    @commands.Cog.listener()
+    async def on_message(self, message: discord.Message):
+        if message.author.bot or not message.guild:
+            return
+
+        # Verifica si el canal de sugerencias/reclamos está configurado
+        config = await self.bot.db_manager.get_guild_config(message.guild.id)
+        if not config or not config.get("suggestion_channel_id"):
+            return
+
+        # Verifica si el mensaje se envia en el canal de sugerencias
+        suggestion_channel_id = config["suggestion_channel_id"]
+        if message.channel.id != suggestion_channel_id:
+            return
+
+        # Verifica si el mensaje es una sugerencia o un reclamo de lo contrario lo borramos
+        if not message.content.startswith("Sugerencia:") or message.content.startswith(
+            "Reclamo:"
+        ):
+            try:
+                await message.delete()
+            except discord.Forbidden:
+                logger.warning(
+                    f"No tengo permisos para eliminar mensajes en el canal {message.channel.id} del servidor {message.guild.id}."
+                )
+            except Exception as e:
+                logger.error(f"Error al eliminar mensaje: {e}", exc_info=True)
+            return
+
+        # Agregar al mensaje una reaccion de "👍" y de "👎" si es una sugerencia
+        if message.content.startswith("Sugerencia:"):
+            await message.add_reaction("👍")
+            await message.add_reaction("👎")
+
+        # Agrega un hilo para que los usuarios puedan comentar sobre la sugerencia o reclamo
+        try:
+            thread = await message.create_thread(
+                name=f"Sugerencia/Reclamo: {message.content[:50]}...",
+                auto_archive_duration=60,  # Archivar automáticamente después de 60 minutos de inactividad
+                reason="Creación automática de hilo para sugerencias/reclamos",
+            )
+            # Menciona al rol Staff en el hilo, si existe
+            staff_role = discord.utils.get(message.guild.roles, name="Staff")
+            staff_mention = staff_role.mention if staff_role else "@Staff"
+            await thread.send(
+                f"Gracias por tu sugerencia/reclamo, {message.author.mention}!\n "
+                f"Por favor, usar este hilo para discutirlo.\n"
+                f"Alguien del equipo del {staff_mention} se pondrá en contacto pronto. "
+            )
+        except discord.Forbidden:
+            logger.warning(
+                f"No tengo permisos para crear hilos en el canal {message.channel.id} del servidor {message.guild.id}."
+            )
+        except Exception as e:
+            logger.error(
+                f"Error al crear hilo para sugerencia/reclamo: {e}", exc_info=True
+            )
+            await message.channel.send(
+                "Ocurrió un error al crear un hilo para tu sugerencia/reclamo. Por favor, intenta de nuevo más tarde."
+            )
+
+        return
+
 
 # ==============================================================================
 # Función de Carga del Cog

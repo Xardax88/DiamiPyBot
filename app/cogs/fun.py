@@ -17,6 +17,22 @@ logger = logging.getLogger(__name__)
 # DATOS CONSTANTES
 # ==============================================================================
 
+ROLL_ICON = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+    "assets",
+    "images",
+    "icons",
+    "dice.png",
+)
+
+TAROT_ICON = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+    "assets",
+    "images",
+    "icons",
+    "tarot.png",
+)
+
 TAROT_FOLDER = os.path.join(
     os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
     "assets",
@@ -148,6 +164,69 @@ class Fun(commands.Cog, name="Diversion"):
         await interaction.followup.send(embed=embed, file=file)
         # Eliminar imagen temporal
         os.remove(temp_path)
+
+    @app_commands.command(
+        name="roll",
+        description="🎲 Lanza dados con notación D&D (ej: 2D6+3) y muestra el resultado.",
+    )
+    @app_commands.describe(tirada="Expresión de la tirada (ejemplo: 1D20+2, 2D6-1, D8)")
+    async def dado(self, interaction: discord.Interaction, tirada: str):
+        """
+        Comando para lanzar dados usando la notación estándar de D&D.
+        Permite expresiones como 1D20+2, 2D6-1, D8, etc.
+        """
+        await interaction.response.defer(thinking=True)
+
+        try:
+            # Parseo de la expresión de tirada
+            import re
+
+            patron = r"^(?:(\d*)[dD](\d+))([+-]?\d+)?$"
+            match = re.match(patron, tirada.replace(" ", ""))
+
+            if not match:
+                await interaction.followup.send(
+                    "❌ Formato inválido. Usa el formato XdY+Z, por ejemplo: 2D6+1, D20, 1d8-2."
+                )
+                return
+
+            cantidad = int(match.group(1)) if match.group(1) else 1
+            caras = int(match.group(2))
+            modificador = int(match.group(3)) if match.group(3) else 0
+            if cantidad < 1 or cantidad > 100 or caras < 2 or caras > 1000:
+                await interaction.followup.send(
+                    "❌ Cantidad de dados (1-100) o caras (2-1000) fuera de rango permitido."
+                )
+                return
+
+            # Lanzar los dados
+            resultados = [random.randint(1, caras) for _ in range(cantidad)]
+            suma = sum(resultados) + modificador
+
+            # Construir mensaje de resultado
+            detalle = f"{' + '.join(map(str, resultados))}"
+            if modificador:
+                detalle += f" {'+' if modificador > 0 else '-'} {abs(modificador)}"
+            embed = discord.Embed(
+                title="Resultado de la tirada",
+                description=f"Expresión: `{tirada}`",
+                color=discord.Color.green(),
+            )
+            embed.add_field(
+                name="Detalle",
+                value=f"Dados: {detalle}\nTotal: **{suma}**",
+                inline=False,
+            )
+            embed.set_footer(text="Lanzador de dados D&D")
+            thumbnail_file = discord.File(ROLL_ICON, filename="thumbnail.png")
+            embed.set_thumbnail(url="attachment://thumbnail.png")
+
+            await interaction.followup.send(embed=embed, file=thumbnail_file)
+        except Exception as e:
+            logger.error(f"Error en el comando dado: {e}")
+            await interaction.followup.send(
+                "❌ Ocurrió un error al procesar la tirada."
+            )
 
 
 # ==============================================================================

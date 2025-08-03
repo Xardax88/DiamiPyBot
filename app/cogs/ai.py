@@ -41,7 +41,7 @@ SALUDOS_COMUNES = [
 # ==============================================================================
 # Configuración del modelo de Gemini
 # ==============================================================================
-MODEL = "gemini-2.0-flash-lite"  # Modelo de Gemini a utilizar
+MODEL = "gemini-2.5-flash-lite"  # Modelo de Gemini a utilizar
 
 
 # ==============================================================================
