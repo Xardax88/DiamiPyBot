@@ -6,8 +6,6 @@
 
 Diami es un bot de Discord versátil y multipropósito, reescrito desde cero en Python.
 
----
-
 </div>
 
 <!-- Badges -->
@@ -30,35 +28,17 @@ Diami es un bot de Discord versátil y multipropósito, reescrito desde cero en 
 
 </div>
 
-> -Saludos, mortales! Soy Diami, elfa bibliotecaria y miembro de 'El Diagrama'. Si te cruzás conmigo, probablemente 
+> **Diami**: Saludos, mortales! Soy Diami, elfa bibliotecaria y miembro de 'El Diagrama'. Si te cruzás conmigo, probablemente 
 > me encuentres entre libros antiguos, debates sobre RPGs, o simplemente disfrutando de un buen café negro.
 > Soy más vieja que la mayoría de los problemas que existen por acá, pero eso no significa que no me mantenga al tanto 
 > de las últimas novedades geek. Si necesitás una mano, o simplemente querés charlar, no dudes en contactarme.
 
-=======
-<p align="center">
-    <img src="https://img.shields.io/badge/Status-En%20Desarrollo-blue" alt="Staus">
-    <a href="https://github.com/Xardax88/DiamiPyBot/releases">
-        <img src="https://img.shields.io/github/v/release/Xardax88/DiamiPyBot?include_prereleases&label=version&color=blue" alt="Latest Release">
-    </a>
-    <img src="https://img.shields.io/github/last-commit/Xardax88/DiamiPyBot" alt="Último Commit">
-    <img src="https://img.shields.io/github/repo-size/Xardax88/DiamiPyBot" alt="Size">
-    <img src="https://img.shields.io/github/license/Xardax88/DiamiPyBot" alt="Licencia">
-    <img src="https://img.shields.io/badge/Python-3.10%2B-blue?logo=python" alt="Versión de Python">
-    <img src="https://img.shields.io/badge/discord.py-v2.3.2-blue?logo=discord&logoColor=white" alt="discord.py">
-    <a href="https://github.com/psf/black">
-        <img src="https://img.shields.io/badge/Code%20Style-Black-000000.svg" alt="Code Style: Black">
-    </a>
-    <a href="https://discord.com/invite/3x8uMdpeHR">
-        <img src="https://img.shields.io/discord/774727090188320808?color=5865F2&logo=discord&logoColor=white" alt="Discord Server">
-    </a>
-</p>
+----
 
 > [!NOTE]
 > Este proyecto está en desarrollo activo. Algunas funcionalidades pueden no estar completamente implementadas o pueden cambiar.  
 > ¡Tu feedback es muy bienvenido!
 
----
 # ✨ Características Principales
 
 | Característica | Descripción |
@@ -69,7 +49,7 @@ Diami es un bot de Discord versátil y multipropósito, reescrito desde cero en 
 | **📅 Tareas Programadas** | Publicaciones automáticas y eventos recurrentes, como el clásico meme de "Feliz Jueves". |
 | **🧩 Arquitectura Modular** | Código organizado en **Cogs** para una fácil expansión y mantenimiento. |
 
----
+
 # 🚀 Uso y Configuración
 
 Una vez invitado a tu servidor, puedes empezar a interactuar con Diami.
@@ -82,7 +62,8 @@ Una vez invitado a tu servidor, puedes empezar a interactuar con Diami.
 > [!IMPORTANT]  
 > Asegúrate de tener un servidor de MongoDB en funcionamiento y actualiza el archivo `.env` con la URI de conexión correcta. 
 > El bot creará automáticamente las colecciones necesarias al iniciar.
----
+
+
 # 📖 Acerca del Proyecto
 
 **Diami** es la nueva encarnación de mi bot personal de Discord, esta vez escrito completamente en **Python** utilizando la librería `discord.py`.
@@ -126,7 +107,6 @@ Esta es la tecnológica que da vida a Diami:
     * ![Railway](https://img.shields.io/badge/Railway-131415?style=for-the-badge&logo=railway&logoColor=white)
     * ![Fedora Server](https://img.shields.io/badge/Fedora%20Server-51A2DA?style=for-the-badge&logo=fedora&logoColor=white)
 
----
 ## 💾 Instalación
 
 1.  **Clona el repositorio:**
@@ -170,7 +150,6 @@ Esta es la tecnológica que da vida a Diami:
     python main.py
     ```
 
----
 # 🗺️ Hoja de Ruta (Roadmap)
 
 Esta es la lista de funcionalidades planificadas y su estado actual. ¡Hay mucho por hacer!
@@ -266,13 +245,11 @@ Esta es la lista de funcionalidades planificadas y su estado actual. ¡Hay mucho
 - [x] Efemérides con IA (mediante `task` y/o comando).
 </details>
 
----
 # ✨Agradecimientos
 
 * A todos los que han contribuido al proyecto, ya sea con código, ideas o feedback.
 * A la comunidad de Discord de El Diagrama.
 * Las incontables latas de Monster que me han mantenido despierto durante el desarrollo.
 
----
 # 📜 Licencia
 Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
