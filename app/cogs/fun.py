@@ -3,6 +3,7 @@
 # Cog section "diversion"
 # ==============================================================================
 import os
+from io import BytesIO
 import logging
 import discord
 from discord.ext import commands
@@ -122,10 +123,18 @@ class Fun(commands.Cog, name="Diversion"):
             )
             x += img.width
         # Guardar imagen temporal
-        temp_path = os.path.join(
-            TAROT_FOLDER, f"temp_tarot_{interaction.user.name}.png"
-        )
-        resultado.save(temp_path)
+        # temp_path = os.path.join(
+        #     TAROT_FOLDER, f"temp_tarot_{interaction.user.name}.png"
+        # )
+        # resultado.save(temp_path)
+        buffer = BytesIO()
+        resultado.save(buffer, format="PNG")
+        buffer.seek(0)
+
+        files = [
+            discord.File(fp=buffer, filename="tarot.png"),
+            discord.File(TAROT_ICON, filename="thumbnail.png"),
+        ]
 
         # Construir mensaje de resultado
         cartas_info = [
@@ -166,16 +175,17 @@ class Fun(commands.Cog, name="Diversion"):
             description=descripcion,
             color=discord.Color.purple(),
         )
+        embed.set_thumbnail(url="attachment://thumbnail.png")
         embed.add_field(
             name="Interpretación de Diami", value=interpretacion, inline=False
         )
         embed.set_footer(text="DiamiBot - Tarot IA")
         # Adjuntar la imagen al embed
-        file = discord.File(temp_path, filename="tarot.png")
+        # file = discord.File(temp_path, filename="tarot.png")
         embed.set_image(url="attachment://tarot.png")
-        await interaction.followup.send(embed=embed, file=file)
+        await interaction.followup.send(embed=embed, files=files)
         # Eliminar imagen temporal
-        os.remove(temp_path)
+        # os.remove(temp_path)
 
     # ==============================================================================
     # Comando de lanzamiento de dados
