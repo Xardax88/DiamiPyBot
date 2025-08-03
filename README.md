@@ -35,7 +35,6 @@ Diami es un bot de Discord versátil y multipropósito, reescrito desde cero en 
 > Soy más vieja que la mayoría de los problemas que existen por acá, pero eso no significa que no me mantenga al tanto 
 > de las últimas novedades geek. Si necesitás una mano, o simplemente querés charlar, no dudes en contactarme.
 
-=======
 <p align="center">
     <img src="https://img.shields.io/badge/Status-En%20Desarrollo-blue" alt="Staus">
     <a href="https://github.com/Xardax88/DiamiPyBot/releases">
