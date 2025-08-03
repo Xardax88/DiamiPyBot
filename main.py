@@ -27,7 +27,7 @@ class ConfigLoader:
     """Carga y valida la configuración desde variables de entorno."""
 
     def __init__(self, env_file: str = ".env"):
-        load_dotenv(env_file)
+        load_dotenv(env_file, override=False)
         self.token = os.getenv("DISCORD_TOKEN")
         self.mongo_uri = os.getenv("MONGO_URI")
         self.guild_id = self._parse_guild_id(os.getenv("GUILD_ID"))
