@@ -441,4 +441,5 @@ def footer():
 # ==============================================================================
 # Iniciar la aplicación NiceGUI
 # ==============================================================================
-ui.run(storage_secret=SESSION_SECRET, title="Diami Py Bot")
+
+# ui.run(storage_secret=SESSION_SECRET, title="Diami Py Bot")

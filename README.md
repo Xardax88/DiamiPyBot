@@ -189,7 +189,7 @@ Esta es la lista de funcionalidades planificadas y su estado actual. ¡Hay mucho
 <details>
 <summary><strong>💬 Interacción y Utilidades</strong></summary>
 
-- [ ] Mensajes de bienvenida y despedida personalizables.
+- [x] Mensajes de bienvenida y despedida personalizables.
 - [x] Comandos de ayuda (`/help`).
 - [ ] Comandos de información (`/serverinfo`, `/userinfo`).
 - [ ] Sistema de tarjeta de usuario (`/profile`).
@@ -217,14 +217,14 @@ Esta es la lista de funcionalidades planificadas y su estado actual. ¡Hay mucho
 <details>
 <summary><strong>🎲 Juegos y Eventos</strong></summary>
 
-- [ ] **Sistema de Rol (RPG):**
-  - [ ] Comando de dados (`/roll 1d20+5`).
+- [x] **Sistema de Rol (RPG):**
+  - [x] Comando de dados (`/roll 1d20+5`).
   - [ ] Hojas de personaje simplificadas.
-- [ ] **Juegos:**
+- [x] **Juegos:**
   - [ ] Gachapón (colección de personajes/objetos).
   - [ ] Combate de héroes automático (Auto-battler).
   - [ ] Tower Defense (Concepto en desarrollo).
-  - [ ] Lectura de cartas del Tarot.
+  - [x] Lectura de cartas del Tarot.
   - [ ] Mascota virtual para el servidor.
 - [ ] Eventos globales periódicos.
 </details>
@@ -240,7 +240,7 @@ Esta es la lista de funcionalidades planificadas y su estado actual. ¡Hay mucho
 - [ ] Integración de IA para juegos y eventos.
 - [ ] Integración de IA para moderación de contenido.
 - [ ] Implementación de IA para usar comandos de forma natural.
-- [ ] Efemérides con IA (mediante `task` y/o comando).
+- [x] Efemérides con IA (mediante `task` y/o comando).
 </details>
 
 ---
