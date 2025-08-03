@@ -7,6 +7,8 @@ import discord
 from discord import TextStyle, app_commands, ui
 from discord.ext import commands
 
+from dashboard.dash import footer
+
 logger = logging.getLogger(__name__)
 
 # ==============================================================================
@@ -18,7 +20,10 @@ HERESY_TEXTS = [
     "Suficiente. Por el Trono Dorado, purgaré esta abominación.",
     "Huele a disformidad por aquí... y no me gusta.",
     "Tu falta de fe, resulta molesta...",
-    "¡HEREJÍA! *BLAM!*",
+    "¡HEREJÍA!",
+    "El Emperador no tolera la herejía. ¡Purgaré esta abominación!",
+    "¡El Emperador Protege! Y yo también, de la herejía.",
+    "El Codex Astartes no aprueba esta conducta.",
 ]
 
 
@@ -57,15 +62,21 @@ class ConfessionModal(ui.Modal, title="📝 Confesión Anónima"):
             return
 
         try:
-            thumbnail_file = discord.File("assets/images/user.png", filename="thumbnail.png")
+            thumbnail_file = discord.File(
+                "assets/images/user.png", filename="thumbnail.png"
+            )
             embed = discord.Embed(
                 title="Confesión Anónima",
-                description=f"```{self.confession_text.value}```",
+                description=f"{self.confession_text.value}",
                 color=discord.Color.dark_grey(),
-                timestamp=discord.utils.utcnow(),
+                # timestamp=discord.utils.utcnow(),
             )
             embed.set_thumbnail(url="attachment://thumbnail.png")
-            embed.set_footer(text=".")
+            embed.set_footer(
+                text=f"\u200b\t\u200b\t\u200b\t\u200b\t\u200b\t\u200b\t\u200b\t\u200b\t"
+                f"\u200b\t\u200b\t\u200b\t\u200b\t\u200b\t\u200b\t\u200b\t\u200b\t"
+                f"\u200b\t\u200b\t\u200b\t\u200b\t\u200b\t\u200b\t\u200b\t\u200b\t"
+            )
 
             await confession_channel.send(embed=embed, file=thumbnail_file)
             await interaction.response.send_message(
@@ -109,10 +120,10 @@ class General(commands.Cog, name="General"):
     # --- FUNCIÓN HELPER PARA ENVIAR EL EMBED DE HEREJÍA ---
     # La movemos aquí para que sea accesible por el comando slash y el menú contextual.
     async def _send_heresy_embed(
-            self,
-            interaction: discord.Interaction,
-            target: discord.Member,
-            reply_to_message: discord.Message = None,
+        self,
+        interaction: discord.Interaction,
+        target: discord.Member,
+        reply_to_message: discord.Message = None,
     ):
         try:
             heresy_folder_path = "assets/images/heresy"
@@ -122,7 +133,9 @@ class General(commands.Cog, name="General"):
                 if os.path.isfile(os.path.join(heresy_folder_path, f))
             ]
             if not available_images:
-                await interaction.response.send_message("Mi armería está vacía.", ephemeral=True)
+                await interaction.response.send_message(
+                    "Mi armería está vacía.", ephemeral=True
+                )
                 return
 
             random_image_name = random.choice(available_images)
@@ -155,7 +168,9 @@ class General(commands.Cog, name="General"):
                 # Y enviamos una confirmación silenciosa y efímera a la interacción
                 # para que Discord sepa que hemos respondido.
                 if not interaction.response.is_done():
-                    await interaction.response.send_message("¡Herejía purgada!", ephemeral=True, delete_after=1)
+                    await interaction.response.send_message(
+                        "¡Herejía purgada!", ephemeral=True, delete_after=1
+                    )
             else:
                 # Si no hay mensaje para responder (desde el comando slash),
                 # enviamos la respuesta directamente a la interacción.
@@ -173,7 +188,9 @@ class General(commands.Cog, name="General"):
                 )
 
     # --- COMANDO DE HEREJÍA ---
-    @app_commands.command(name="herejia", description="☠️ Declara hereje a un miembro del servidor.")
+    @app_commands.command(
+        name="herejia", description="☠️ Declara hereje a un miembro del servidor."
+    )
     @app_commands.describe(usuario="El miembro al que quieres declarar hereje.")
     async def heresy(self, interaction: discord.Interaction, usuario: discord.Member):
         """Declara hereje a un usuario específico."""

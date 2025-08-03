@@ -1,13 +1,41 @@
-<h1 align="center">
-    <img src="docs/assets/diami_banner.png">
-    <br>
-    Diami Bot - Edición Python 🐍 
-    <br>
-</h1>
+<div align="center">
 
-<h4 align="center"> Diami es un bot de Discord versátil y multipropósito, reescrito desde cero en Python. </h4>
+![Banner](docs/assets/diami_banner2.png)
+# Diami Bot - Edición Python 🐍
+
+
+Diami es un bot de Discord versátil y multipropósito, reescrito desde cero en Python.
+
+---
+
+</div>
 
 <!-- Badges -->
+
+<div align="center">
+
+![Status](https://img.shields.io/badge/Status-En%20Desarrollo-blue)
+[![Última Versión](https://img.shields.io/github/v/release/Xardax88/DiamiPyBot?include_prereleases&label=version&color=blue)](https://github.com/Xardax88/DiamiPyBot/releases)
+![Último Commit](https://img.shields.io/github/last-commit/Xardax88/DiamiPyBot)
+![Tamaño del Repo](https://img.shields.io/github/repo-size/Xardax88/DiamiPyBot)
+[![Licencia](https://img.shields.io/github/license/Xardax88/DiamiPyBot)](LICENSE)
+![Python Version](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-4.4%2B-green?logo=mongodb&logoColor=white)
+![discord.py](https://img.shields.io/badge/discord.py-v2.3.2-blue?logo=discord&logoColor=white)
+![Gemini](https://img.shields.io/badge/Google%20Gemini-8E77F0?style=flat&logo=google-gemini&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
+[![Code Style: Black](https://img.shields.io/badge/Code%20Style-Black-000000.svg)](https://github.com/psf/black)
+[![El Diagrama](https://img.shields.io/badge/El%20Diagrama-orange?style=flat)](https://discord.com/invite/3x8uMdpeHR)
+[![Discord Server](https://img.shields.io/discord/774727090188320808?color=5865F2&logo=discord&logoColor=white)](https://discord.com/invite/3x8uMdpeHR)
+
+</div>
+
+> -Saludos, mortales! Soy Diami, elfa bibliotecaria y miembro de 'El Diagrama'. Si te cruzás conmigo, probablemente 
+> me encuentres entre libros antiguos, debates sobre RPGs, o simplemente disfrutando de un buen café negro.
+> Soy más vieja que la mayoría de los problemas que existen por acá, pero eso no significa que no me mantenga al tanto 
+> de las últimas novedades geek. Si necesitás una mano, o simplemente querés charlar, no dudes en contactarme.
+
+=======
 <p align="center">
     <img src="https://img.shields.io/badge/Status-En%20Desarrollo-blue" alt="Staus">
     <a href="https://github.com/Xardax88/DiamiPyBot/releases">
@@ -29,6 +57,7 @@
 > [!NOTE]
 > Este proyecto está en desarrollo activo. Algunas funcionalidades pueden no estar completamente implementadas o pueden cambiar.  
 > ¡Tu feedback es muy bienvenido!
+
 ---
 # ✨ Características Principales
 
@@ -70,31 +99,32 @@ El objetivo final es crear un asistente para servidores de Discord que no solo o
 
 La versión original de Diami fue desarrollada en **TypeScript**. Si bien fue un excelente proyecto para aprender y validar conceptos, la migración a Python se realizó por varias razones estratégicas:
 
-1.  **Ecosistema de IA y Machine Learning:** Python es el lenguaje líder indiscutible en el campo de la IA. La integración con librerías como `google-generativeai` y el acceso a un vasto ecosistema de herramientas de data science es nativa y mucho más sencilla.
-2.  **Facilidad y Rapidez de Desarrollo:** La sintaxis limpia de Python permiten un desarrollo más ágil y un código más legible, ideal para un proyecto con una hoja de ruta tan ambiciosa.
-3.  **Rendimiento y Manejo de Concurrencia:** Con `asyncio` como pilar, `discord.py` ofrece un manejo de la concurrencia extremadamente eficiente y maduro, perfecto para un bot que debe manejar cientos de eventos simultáneos.
-4.  **Optimización de Hosting:** Este cambio también fue motivado por la necesidad de migrar desde plataformas de hosting (como Railway) que comenzaban a tener un costo elevado, hacia soluciones más personalizadas y rentables como un servidor dedicado.
-5.  **Crecimiento Personal:** Poner en práctica y profundizar mis conocimientos en el ecosistema de Python, creando un bot más robusto y con una base de código profesional.
-<!-- Aquí es un excelente lugar para una captura de pantalla de un comando en acción -->
-<!-- ![Ejemplo del Bot](URL_DE_LA_CAPTURA_DE_PANTALLA.png) -->
+1.  **Ecosistema de IA y Machine Learning:** Python es el lenguaje líder indiscutible en el campo de la IA. La integración con librerías como `google-generativeai`.
+2.  **Sistema de logger y auditoría:** La implementación de un sistema de logger y auditoría es más sencilla y directa en Python, lo que permite una mejor trazabilidad de las acciones del bot y facilitar la localización de errores o bugs.
+3.  **Facilidad y Rapidez de Desarrollo:** La sintaxis limpia de Python permiten un desarrollo más ágil y un código más legible, ideal para un proyecto con una hoja de ruta tan ambiciosa.
+4.  **Rendimiento y Manejo de Concurrencia:** Con `asyncio` como pilar, `discord.py` ofrece un manejo de la concurrencia extremadamente eficiente y maduro, perfecto para un bot que debe manejar cientos de eventos simultáneos.
+5.  **Optimización de Hosting:** Este cambio también fue motivado por la necesidad de migrar desde plataformas de hosting (como Railway) que comenzaban a tener un costo elevado, hacia soluciones más personalizadas y rentables como un servidor dedicado.
+6.  **Crecimiento Personal:** Poner en práctica y profundizar mis conocimientos en el ecosistema de Python, creando un bot más robusto y con una base de código profesional.
 
 ## 🛠️ Construido Con
 
 Esta es la tecnológica que da vida a Diami:
 
 *   **Lenguaje Principal:**
-    *   ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-*   **Framework de Discord:**
-    *   ![discord.py](https://img.shields.io/badge/discord.py-5865F2?style=for-the-badge&logo=discord&logoColor=white)
+    * ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+*   **Frameworks:**
+    * ![discord.py](https://img.shields.io/badge/discord.py-5865F2?style=for-the-badge&logo=discord&logoColor=white)
+    * ![NiceGUI](https://img.shields.io/badge/NiceGUI-000000?style=for-the-badge&logo=nicegui&logoColor=white)
 *   **Base de Datos:**
-    *   ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white) (con `motor` para operaciones asíncronas)
+    * ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white) 
 *   **IA:**
-    *   ![Gemini](https://img.shields.io/badge/Google%20Gemini-8E77F0?style=for-the-badge&logo=google-gemini&logoColor=white)
+    * ![Gemini](https://img.shields.io/badge/Google%20Gemini-8E77F0?style=for-the-badge&logo=google-gemini&logoColor=white)
 *   **IDE**
-    *   ![PyCharm](https://img.shields.io/badge/pycharm-143?style=for-the-badge&logo=pycharm&logoColor=black&color=black&labelColor=green)
+    * ![PyCharm](https://img.shields.io/badge/pycharm-143?style=for-the-badge&logo=pycharm&logoColor=black&color=black&labelColor=green)
 *   **Despliegue y Hosting:**
-    *   ![Railway](https://img.shields.io/badge/Railway-131415?style=for-the-badge&logo=railway&logoColor=white)
-    *   ![Fedora Server](https://img.shields.io/badge/Fedora%20Server-51A2DA?style=for-the-badge&logo=fedora&logoColor=white)
+    * ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+    * ![Railway](https://img.shields.io/badge/Railway-131415?style=for-the-badge&logo=railway&logoColor=white)
+    * ![Fedora Server](https://img.shields.io/badge/Fedora%20Server-51A2DA?style=for-the-badge&logo=fedora&logoColor=white)
 
 ---
 ## 💾 Instalación
@@ -168,10 +198,22 @@ Esta es la lista de funcionalidades planificadas y su estado actual. ¡Hay mucho
 </details>
 
 <details>
+<summary><strong>🎚️ Dashboard y Landing page</strong></summary>
+
+- [x] Página de inicio (landing page) para el bot.
+- [ ] Dashboard web para configuración del bot.
+- [x] Integración con OAuth2 para autenticación de usuarios.
+- [ ] Configuración de módulos y comandos desde el dashboard.
+- [ ] Visualización de estadísticas del bot y del servidor.
+- [ ] Personalización de la apariencia del bot.
+
+</details>
+
+<details>
 <summary><strong>💬 Interacción y Utilidades</strong></summary>
 
-- [ ] Mensajes de bienvenida y despedida personalizables.
-- [ ] Comandos de ayuda (`/help`).
+- [x] Mensajes de bienvenida y despedida personalizables.
+- [x] Comandos de ayuda (`/help`).
 - [ ] Comandos de información (`/serverinfo`, `/userinfo`).
 - [ ] Sistema de tarjeta de usuario (`/profile`).
 - [ ] Comandos de búsqueda (`/search`).
@@ -198,14 +240,14 @@ Esta es la lista de funcionalidades planificadas y su estado actual. ¡Hay mucho
 <details>
 <summary><strong>🎲 Juegos y Eventos</strong></summary>
 
-- [ ] **Sistema de Rol (RPG):**
-  - [ ] Comando de dados (`/roll 1d20+5`).
+- [x] **Sistema de Rol (RPG):**
+  - [x] Comando de dados (`/roll 1d20+5`).
   - [ ] Hojas de personaje simplificadas.
-- [ ] **Juegos:**
+- [x] **Juegos:**
   - [ ] Gachapón (colección de personajes/objetos).
   - [ ] Combate de héroes automático (Auto-battler).
   - [ ] Tower Defense (Concepto en desarrollo).
-  - [ ] Lectura de cartas del Tarot.
+  - [x] Lectura de cartas del Tarot.
   - [ ] Mascota virtual para el servidor.
 - [ ] Eventos globales periódicos.
 </details>
@@ -221,7 +263,7 @@ Esta es la lista de funcionalidades planificadas y su estado actual. ¡Hay mucho
 - [ ] Integración de IA para juegos y eventos.
 - [ ] Integración de IA para moderación de contenido.
 - [ ] Implementación de IA para usar comandos de forma natural.
-- [ ] Efemérides con IA (mediante `task` y/o comando).
+- [x] Efemérides con IA (mediante `task` y/o comando).
 </details>
 
 ---
@@ -229,3 +271,8 @@ Esta es la lista de funcionalidades planificadas y su estado actual. ¡Hay mucho
 
 * A todos los que han contribuido al proyecto, ya sea con código, ideas o feedback.
 * A la comunidad de Discord de El Diagrama.
+* Las incontables latas de Monster que me han mantenido despierto durante el desarrollo.
+
+---
+# 📜 Licencia
+Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.

@@ -39,7 +39,13 @@ SALUDOS_COMUNES = [
 ]
 
 # ==============================================================================
-# Cog para la Inteligencia Artificial Diami
+# Configuración del modelo de Gemini
+# ==============================================================================
+MODEL = "gemini-2.5-flash-lite"  # Modelo de Gemini a utilizar
+
+
+# ==============================================================================
+# Inteligencia Artificial Diami
 # ==============================================================================
 class AI(commands.Cog, name="Inteligencia Artificial Diami"):
     """
@@ -72,11 +78,11 @@ class AI(commands.Cog, name="Inteligencia Artificial Diami"):
         }
 
         self.model = genai.GenerativeModel(
-            model_name="gemini-2.0-flash-lite",
+            model_name=MODEL,
             generation_config=self.generation_config,
             safety_settings=self.safety_settings,
         )
-        logger.info("Modelo de Gemini ('gemini-2.0-flash-lite') inicializado.")
+        logger.info(f"Modelo de Gemini {MODEL} inicializado.")
 
         self.personality_prompt = self._load_personality_prompt()
         if not self.personality_prompt:
@@ -134,13 +140,22 @@ class AI(commands.Cog, name="Inteligencia Artificial Diami"):
         user_input: str,
         attachments: list = [],
     ):
-        """Función centralizada para generar respuestas con Gemini."""
+        """
+        Genera una respuesta usando Gemini, diferenciando entre prompts normales y comandos internos.
+        Si el prompt inicia con '>>command>>', se prioriza la tarea y se omite el contexto de canal.
+        """
         prompt_parts = [self.personality_prompt]
-
-        history_xml = await self._get_message_history_xml(channel)
-        timestamp_xml = f"<timestamp_actual>{datetime.now().strftime('%A, %H:%M')}</timestamp_actual>"
-
-        context_and_task = f"""
+        # Detectar si es un comando interno
+        if user_input.strip().startswith(">>command>>"):
+            # Solo se envía el prompt de personalidad y el comando, sin contexto adicional
+            prompt_parts.append(user_input)
+            # Las imágenes no se envían en comandos internos
+        else:
+            # Prompt normal: agregar contexto de canal, historial y timestamp
+            if channel is not None:
+                history_xml = await self._get_message_history_xml(channel)
+                timestamp_xml = f"<timestamp_actual>{datetime.now().strftime('%A, %H:%M')}</timestamp_actual>"
+                context_and_task = f"""
 <contexto_actual_y_tarea>
     {timestamp_xml}
     <usuario_actual>{user_name}</usuario_actual>
@@ -148,17 +163,16 @@ class AI(commands.Cog, name="Inteligencia Artificial Diami"):
     <input_del_usuario>{user_input}</input_del_usuario>
 </contexto_actual_y_tarea>
 """
-        prompt_parts.append(context_and_task)
-
-        if attachments:
-            prompt_parts.append(
-                "\nEl usuario también ha adjuntado la(s) siguiente(s) imagen(es):"
-            )
-            for attachment in attachments:
-                image_bytes = await attachment.read()
-                img = Image.open(BytesIO(image_bytes))
-                prompt_parts.append(img)
-
+                prompt_parts.append(context_and_task)
+            # Adjuntar imágenes si existen
+            if attachments:
+                prompt_parts.append(
+                    "\nEl usuario también ha adjuntado la(s) siguiente(s) imagen(es):"
+                )
+                for attachment in attachments:
+                    image_bytes = await attachment.read()
+                    img = Image.open(BytesIO(image_bytes))
+                    prompt_parts.append(img)
         logger.info(
             f"Enviando prompt a Gemini. Tarea para: {user_name}. Input: '{user_input[:50]}...'"
         )
@@ -282,6 +296,50 @@ class AI(commands.Cog, name="Inteligencia Artificial Diami"):
     async def before_proactive_task(self):
         """Espera a que el bot esté completamente listo antes de iniciar la tarea."""
         await self.bot.wait_until_ready()
+
+    async def interpretar_tarot(self, user: str, pregunta: str, cartas: list) -> str:
+        """
+        Genera una interpretación de las cartas del tarot para una pregunta dada.
+        Utiliza el modelo Gemini para crear una respuesta personalizada.
+
+        Args:
+            user (str): Nombre del usuario que realiza la pregunta.
+            pregunta (str): La pregunta realizada por el usuario.
+            cartas (list): Lista de tuplas (nombre_carta, orientacion), por ejemplo:
+                [("El Loco", "derecha"), ("La Muerte", "invertida"), ...]
+
+        Returns:
+            str: Interpretación generada por Diami.
+        """
+        # Construir el prompt para la IA
+        cartas_descripcion = "\n".join(
+            [
+                f"- {nombre.replace('_', ' ').title()} ({orientacion})"
+                for nombre, orientacion in cartas
+            ]
+        )
+        prompt = (
+            f">>command>>\n"
+            f"Pregunta: {pregunta}\n"
+            f"Cartas extraídas:\n{cartas_descripcion}\n"
+            "Como experta tarotista, interpreta el significado de estas cartas en relación a la pregunta. "
+            "Sé clara, concisa y empática. No repitas la pregunta ni los nombres de las cartas, solo interpreta el mensaje que transmiten juntas."
+        )
+        try:
+            response = await self._generate_gemini_response(
+                None,  # No se requiere canal para la interpretación
+                user,  # Nombre de la IA
+                prompt,
+                [],  # Sin adjuntos
+            )
+            return (
+                response
+                if response
+                else "No pude interpretar las cartas en este momento."
+            )
+        except Exception as e:
+            logger.error(f"Error al interpretar tarot: {e}", exc_info=True)
+            return "Ocurrió un error al interpretar las cartas."
 
 
 # ==============================================================================

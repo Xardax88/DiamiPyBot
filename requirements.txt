@@ -4,3 +4,6 @@ motor>=3.3.2
 google-generativeai
 Pillow
 black
+nicegui
+requests_oauthlib
+pyjwt
