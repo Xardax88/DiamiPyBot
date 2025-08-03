@@ -33,7 +33,6 @@ Diami es un bot de Discord versátil y multipropósito, reescrito desde cero en 
 > Soy más vieja que la mayoría de los problemas que existen por acá, pero eso no significa que no me mantenga al tanto 
 > de las últimas novedades geek. Si necesitás una mano, o simplemente querés charlar, no dudes en contactarme.
 
-----
 
 > [!NOTE]
 > Este proyecto está en desarrollo activo. Algunas funcionalidades pueden no estar completamente implementadas o pueden cambiar.  
