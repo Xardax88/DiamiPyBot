@@ -57,39 +57,22 @@ class Diami(commands.Bot):
     async def setup_hook(self):
         """El hook para cargar cogs y sincronizar comandos."""
 
-        if self.guild_id:
-            try:
-                config = await self.db_manager.get_guild_config(self.guild_id)
-                log_channel_id = config.get("log_channel_id") if config else None
+        # Configuración del DiscordLoggingHandler
+        try:
+            root_logger = logging.getLogger()
+            # Crea y añade handler personalizado que usa db_manager y soporta logs por guild
+            discord_handler = LoggingHandler(bot=self, db_manager=self.db_manager)
+            # Establece un formato para los logs de Discord
+            formatter = logging.Formatter("%(levelname)s - %(name)s - %(message)s")
+            discord_handler.setFormatter(formatter)
+            # Establece el nivel. Por ejemplo, INFO y superior.
+            discord_handler.setLevel(logging.INFO)
+            root_logger.addHandler(discord_handler)
+            logging.info(f"LoggingHandler configurado para logs por guild.")
+        except Exception as e:
+            logging.error(f"Error al configurar el LoggingHandler: {e}", exc_info=True)
 
-                if log_channel_id:
-                    # Obtiene el logger raíz
-                    root_logger = logging.getLogger()
-                    # Crea y añade handler personalizado
-                    discord_handler = LoggingHandler(
-                        bot=self, channel_id=log_channel_id
-                    )
-                    # Establece un formato para los logs de Discord
-                    formatter = logging.Formatter(
-                        "%(levelname)s - %(name)s - %(message)s"
-                    )
-                    discord_handler.setFormatter(formatter)
-                    # Establece el nivel. Por ejemplo, INFO y superior.
-                    discord_handler.setLevel(logging.INFO)
-
-                    root_logger.addHandler(discord_handler)
-                    logging.info(
-                        f"DiscordLoggingHandler configurado para el canal ID: {log_channel_id}"
-                    )
-                else:
-                    logging.warning(
-                        f"No se encontró 'log_channel_id' para el guild de pruebas {self.guild_id}. Los logs no se enviarán a Discord."
-                    )
-
-            except Exception as e:
-                logging.error(
-                    f"Error al configurar el DiscordLoggingHandler: {e}", exc_info=True
-                )
+        # --- Sincronización de Comandos Slash ---
 
         logger.info("--- Cargando Cogs ---")
         # Busca todos los archivos .py en la carpeta 'cogs'
@@ -102,8 +85,6 @@ class Diami(commands.Bot):
                     logger.info(f"Se cargó el cog: {cog_name}")
                 except Exception as e:
                     logger.error(f"Falló la carga del cog {cog_name}. Error: {e}")
-
-        # --- Sincronización de Comandos Slash ---
 
         if self.guild_id:
             guild = discord.Object(id=self.guild_id)

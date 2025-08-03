@@ -157,13 +157,19 @@ class Fun(commands.Cog, name="Diversion"):
                 [f"{nombre}({orientacion})" for nombre, orientacion in cartas_para_ia]
             )
             # Loguear el formato solicitado para mayor claridad
-            logger.info(f"Cartas seleccionadas: {cartas_str}")
+            logger.info(
+                f"Cartas seleccionadas: {cartas_str}",
+                extra={"guild_id": interaction.guild.id},
+            )
             try:
                 interpretacion = await ai_cog.interpretar_tarot(
                     interaction.user.name, ask, cartas_para_ia
                 )
             except Exception as e:
-                logger.error(f"Error al obtener interpretación de tarot: {e}")
+                logger.error(
+                    f"Error al obtener interpretación de tarot: {e}",
+                    extra={"guild_id": interaction.guild.id},
+                )
                 interpretacion = "No se pudo obtener la interpretación de las cartas."
         else:
             interpretacion = "La IA no está disponible para interpretar las cartas."
@@ -248,7 +254,10 @@ class Fun(commands.Cog, name="Diversion"):
 
             await interaction.followup.send(embed=embed, file=thumbnail_file)
         except Exception as e:
-            logger.error(f"Error en el comando dado: {e}")
+            logger.error(
+                f"Error en el comando dado: {e}",
+                extra={"guild_id": interaction.guild.id},
+            )
             await interaction.followup.send(
                 "❌ Ocurrió un error al procesar la tirada."
             )
