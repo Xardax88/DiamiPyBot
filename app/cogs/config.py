@@ -186,10 +186,10 @@ class Config(commands.Cog):
         # a través del Cog.
         self.config_group.add_command(SetGroup(bot))
         self.config_group.add_command(StatusGroup(bot))
-        self.bot.tree.add_command(
-            self.config_group,
-            guild=discord.Object(id=bot.guild_id) if bot.guild_id else None,
-        )
+        #self.bot.tree.add_command(
+        #    self.config_group,
+        #    guild=discord.Object(id=bot.guild_id) if bot.guild_id else None,
+        #)
 
     # Este método es importante para cuando el cog se descarga (unload)
     def cog_unload(self):
