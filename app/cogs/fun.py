@@ -65,13 +65,17 @@ ARCANOS = [
 ]
 
 # ==============================================================================
-# Comando de Tarot
+# Comando Fun
 # ==============================================================================
 
 
 class Fun(commands.Cog, name="Diversion"):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+
+    # ==============================================================================
+    # Comando de Tarot
+    # ==============================================================================
 
     @app_commands.command(
         name="tarot", description="🎴 Haz una pregunta y consulta las cartas del tarot."
@@ -118,7 +122,9 @@ class Fun(commands.Cog, name="Diversion"):
             )
             x += img.width
         # Guardar imagen temporal
-        temp_path = os.path.join(TAROT_FOLDER, "temp_tarot.png")
+        temp_path = os.path.join(
+            TAROT_FOLDER, f"temp_tarot_{interaction.user.name}.png"
+        )
         resultado.save(temp_path)
 
         # Construir mensaje de resultado
@@ -137,6 +143,12 @@ class Fun(commands.Cog, name="Diversion"):
                 (os.path.splitext(c)[0].replace("_", " ").title(), o)
                 for c, o in zip(cartas, orientaciones)
             ]
+            # Formatear la lista de cartas seleccionadas como string legible
+            cartas_str = ", ".join(
+                [f"{nombre}({orientacion})" for nombre, orientacion in cartas_para_ia]
+            )
+            # Loguear el formato solicitado para mayor claridad
+            logger.info(f"Cartas seleccionadas: {cartas_str}")
             try:
                 interpretacion = await ai_cog.interpretar_tarot(
                     interaction.user.name, ask, cartas_para_ia
@@ -165,6 +177,9 @@ class Fun(commands.Cog, name="Diversion"):
         # Eliminar imagen temporal
         os.remove(temp_path)
 
+    # ==============================================================================
+    # Comando de lanzamiento de dados
+    # ==============================================================================
     @app_commands.command(
         name="roll",
         description="🎲 Lanza dados con notación D&D (ej: 2D6+3) y muestra el resultado.",

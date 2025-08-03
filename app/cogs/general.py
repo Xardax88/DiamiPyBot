@@ -14,13 +14,29 @@ logger = logging.getLogger(__name__)
 # ==============================================================================
 # DATOS CONSTANTES
 # ==============================================================================
+CONFESSION_ICON = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+    "assets",
+    "images",
+    "icons",
+    "user.png",
+)
+
+HERESY_ICON = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+    "assets",
+    "images",
+    "icons",
+    "heresy.png",
+)
+
+
 HERESY_TEXTS = [
     "He detectado herejía. El Emperador Desaprueba.",
     "Esto suena a pensamiento herético. El Ordo Hereticus ha sido notificado.",
     "Suficiente. Por el Trono Dorado, purgaré esta abominación.",
     "Huele a disformidad por aquí... y no me gusta.",
     "Tu falta de fe, resulta molesta...",
-    "¡HEREJÍA!",
     "El Emperador no tolera la herejía. ¡Purgaré esta abominación!",
     "¡El Emperador Protege! Y yo también, de la herejía.",
     "El Codex Astartes no aprueba esta conducta.",
@@ -62,9 +78,7 @@ class ConfessionModal(ui.Modal, title="📝 Confesión Anónima"):
             return
 
         try:
-            thumbnail_file = discord.File(
-                "assets/images/user.png", filename="thumbnail.png"
-            )
+            thumbnail_file = discord.File(CONFESSION_ICON, filename="thumbnail.png")
             embed = discord.Embed(
                 title="Confesión Anónima",
                 description=f"{self.confession_text.value}",
@@ -93,7 +107,7 @@ class ConfessionModal(ui.Modal, title="📝 Confesión Anónima"):
         except Exception as e:
             logger.error(f"Error al procesar confesión: {e}", exc_info=True)
             await interaction.response.send_message(
-                "Ocurrió un error al procesar tu confesión.", ephemeral=True
+                f"Ocurrió un error al procesar tu confesión: {e}", ephemeral=True
             )
 
 
@@ -144,7 +158,7 @@ class General(commands.Cog, name="General"):
                     os.path.join(heresy_folder_path, random_image_name),
                     filename=random_image_name,
                 ),
-                discord.File("assets/images/heresy.png", filename="thumbnail.png"),
+                discord.File(HERESY_ICON, filename="thumbnail.png"),
             ]
 
             embed = discord.Embed(
@@ -153,8 +167,13 @@ class General(commands.Cog, name="General"):
                 color=discord.Color.red(),
             )
             embed.add_field(
-                name=f"Evidencia presentada por {interaction.user.mention}.",
-                value=f"Se declara hereje a **{target.mention}**.",
+                name=f"Evidencia presentada por ",
+                value=f"**{interaction.user.mention}**.",
+                inline=False,
+            )
+            embed.add_field(
+                name=f"Se declara hereje a ",
+                value=f"**{target.mention}**.",
                 inline=False,
             )
             embed.set_footer(text="El Emperador Protege.")
