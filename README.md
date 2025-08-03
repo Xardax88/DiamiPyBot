@@ -35,6 +35,29 @@ Diami es un bot de Discord versátil y multipropósito, reescrito desde cero en 
 > Soy más vieja que la mayoría de los problemas que existen por acá, pero eso no significa que no me mantenga al tanto 
 > de las últimas novedades geek. Si necesitás una mano, o simplemente querés charlar, no dudes en contactarme.
 
+=======
+<p align="center">
+    <img src="https://img.shields.io/badge/Status-En%20Desarrollo-blue" alt="Staus">
+    <a href="https://github.com/Xardax88/DiamiPyBot/releases">
+        <img src="https://img.shields.io/github/v/release/Xardax88/DiamiPyBot?include_prereleases&label=version&color=blue" alt="Latest Release">
+    </a>
+    <img src="https://img.shields.io/github/last-commit/Xardax88/DiamiPyBot" alt="Último Commit">
+    <img src="https://img.shields.io/github/repo-size/Xardax88/DiamiPyBot" alt="Size">
+    <img src="https://img.shields.io/github/license/Xardax88/DiamiPyBot" alt="Licencia">
+    <img src="https://img.shields.io/badge/Python-3.10%2B-blue?logo=python" alt="Versión de Python">
+    <img src="https://img.shields.io/badge/discord.py-v2.3.2-blue?logo=discord&logoColor=white" alt="discord.py">
+    <a href="https://github.com/psf/black">
+        <img src="https://img.shields.io/badge/Code%20Style-Black-000000.svg" alt="Code Style: Black">
+    </a>
+    <a href="https://discord.com/invite/3x8uMdpeHR">
+        <img src="https://img.shields.io/discord/774727090188320808?color=5865F2&logo=discord&logoColor=white" alt="Discord Server">
+    </a>
+</p>
+
+> [!NOTE]
+> Este proyecto está en desarrollo activo. Algunas funcionalidades pueden no estar completamente implementadas o pueden cambiar.  
+> ¡Tu feedback es muy bienvenido!
+
 ---
 # ✨ Características Principales
 
