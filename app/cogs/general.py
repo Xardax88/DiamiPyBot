@@ -98,16 +98,22 @@ class ConfessionModal(ui.Modal, title="📝 Confesión Anónima"):
             )
         except discord.Forbidden:
             logger.warning(
-                f"No se pudo enviar confesión en {self.guild_id} por falta de permisos."
+                f"No se pudo enviar confesión en {self.guild_id} por falta de permisos.",
+                extra={"guild_id": interaction.guild.id},
             )
             await interaction.response.send_message(
                 "No tengo permisos para enviar mensajes en el canal de confesiones.",
                 ephemeral=True,
             )
         except Exception as e:
-            logger.error(f"Error al procesar confesión: {e}", exc_info=True)
+            logger.error(
+                f"Error al procesar confesión: {e}",
+                exc_info=True,
+                extra={"guild_id": interaction.guild.id},
+            )
             await interaction.response.send_message(
-                f"Ocurrió un error al procesar tu confesión: {e}", ephemeral=True
+                f"Ocurrió un error al procesar tu confesión: {e}",
+                ephemeral=True,
             )
 
 
@@ -200,7 +206,11 @@ class General(commands.Cog, name="General"):
                     await interaction.followup.send(embed=embed, files=files)
 
         except Exception as e:
-            logger.error(f"Error en comando de herejía: {e}", exc_info=True)
+            logger.error(
+                f"Error en comando de herejía: {e}",
+                exc_info=True,
+                extra={"guild_id": interaction.guild.id},
+            )
             if not interaction.response.is_done():
                 await interaction.response.send_message(
                     "El juicio del Emperador ha sido interrumpido.", ephemeral=True

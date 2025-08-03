@@ -212,7 +212,10 @@ class AI(commands.Cog, name="Inteligencia Artificial Diami"):
             if not config or message.channel.id != config.get("main_channel_id"):
                 return
         except Exception as e:
-            logger.error(f"Error al obtener config del guild en on_message: {e}")
+            logger.error(
+                f"Error al obtener config del guild en on_message: {e}",
+                extra={"guild_id": message.guild.id},
+            )
             return
 
         async with message.channel.typing():
@@ -230,7 +233,11 @@ class AI(commands.Cog, name="Inteligencia Artificial Diami"):
                 if response_text:
                     await message.reply(response_text)
             except Exception as e:
-                logger.error(f"Error en on_message con Gemini: {e}", exc_info=True)
+                logger.error(
+                    f"Error en on_message con Gemini: {e}",
+                    exc_info=True,
+                    extra={"guild_id": message.guild.id},
+                )
                 await message.reply(
                     "Ai... mi conexión con el saber arcano parece fallar. 💀"
                 )

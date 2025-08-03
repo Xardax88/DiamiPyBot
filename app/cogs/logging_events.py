@@ -5,6 +5,7 @@ from discord.ext import commands
 
 logger = logging.getLogger("discord")
 
+
 # ==============================================================================
 # Cog para registrar eventos importantes del servidor
 # ==============================================================================
@@ -35,10 +36,14 @@ class LoggingEvents(commands.Cog, name="logging"):
                 await log_channel.send(embed=embed)
         except discord.Forbidden:
             logger.warning(
-                f"No tengo permisos para enviar mensajes en el canal de historia del servidor {guild_id}."
+                f"No tengo permisos para enviar mensajes en el canal de historia del servidor {guild_id}.",
+                extra={"guild_id": guild_id},
             )
         except Exception as e:
-            logger.error(f"Error al enviar log al servidor {guild_id}: {e}")
+            logger.error(
+                f"Error al enviar log al servidor {guild_id}: {e}",
+                extra={"guild_id": guild_id},
+            )
 
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member):
@@ -125,6 +130,7 @@ class LoggingEvents(commands.Cog, name="logging"):
         embed.set_footer(text=f"ID del Autor: {after.author.id}")
 
         await self._send_log_embed(after.guild.id, embed)
+
 
 # ==============================================================================
 # FUNCIÓN DE CARGA DEL COG

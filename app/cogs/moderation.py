@@ -105,14 +105,19 @@ class Moderation(commands.Cog, name="Moderation"):
             )
         except discord.Forbidden:
             logger.warning(
-                f"No se pudo enviar reporte en '{interaction.guild.name}' por falta de permisos en el canal de reportes."
+                f"No se pudo enviar reporte en '{interaction.guild.name}' por falta de permisos en el canal de reportes.",
+                extra={"guild_id": interaction.guild.id},
             )
             await interaction.response.send_message(
                 "Ocurrió un error al enviar tu reporte (posiblemente un problema de permisos). Por favor, avisa a un administrador.",
                 ephemeral=True,
             )
         except Exception as e:
-            logger.error(f"Error inesperado al enviar reporte: {e}", exc_info=True)
+            logger.error(
+                f"Error inesperado al enviar reporte: {e}",
+                exc_info=True,
+                extra={"guild_id": interaction.guild.id},
+            )
             await interaction.response.send_message(
                 "Ocurrió un error inesperado al enviar tu reporte. Inténtalo de nuevo más tarde.",
                 ephemeral=True,
@@ -142,10 +147,15 @@ class Moderation(commands.Cog, name="Moderation"):
                 await message.delete()
             except discord.Forbidden:
                 logger.warning(
-                    f"No tengo permisos para eliminar mensajes en el canal {message.channel.id} del servidor {message.guild.id}."
+                    f"No tengo permisos para eliminar mensajes en el canal {message.channel.id} del servidor {message.guild.id}.",
+                    extra={"guild_id": message.guild.id},
                 )
             except Exception as e:
-                logger.error(f"Error al eliminar mensaje: {e}", exc_info=True)
+                logger.error(
+                    f"Error al eliminar mensaje: {e}",
+                    exc_info=True,
+                    extra={"guild_id": message.guild.id},
+                )
             return
 
         # Agregar al mensaje una reaccion de "👍" y de "👎" si es una sugerencia
@@ -170,11 +180,14 @@ class Moderation(commands.Cog, name="Moderation"):
             )
         except discord.Forbidden:
             logger.warning(
-                f"No tengo permisos para crear hilos en el canal {message.channel.id} del servidor {message.guild.id}."
+                f"No tengo permisos para crear hilos en el canal {message.channel.id} del servidor {message.guild.id}.",
+                extra={"guild_id": message.guild.id},
             )
         except Exception as e:
             logger.error(
-                f"Error al crear hilo para sugerencia/reclamo: {e}", exc_info=True
+                f"Error al crear hilo para sugerencia/reclamo: {e}",
+                exc_info=True,
+                extra={"guild_id": message.guild.id},
             )
             await message.channel.send(
                 "Ocurrió un error al crear un hilo para tu sugerencia/reclamo. Por favor, intenta de nuevo más tarde."

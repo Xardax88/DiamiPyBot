@@ -46,7 +46,8 @@ class SetGroup(app_commands.Group):
         if not interaction.guild:
             return
         logger.info(
-            f"channel {canal.id}, tipo {tipo.value}, guild {interaction.guild.id}"
+            f"channel {canal.id}, tipo {tipo.value}, guild {interaction.guild.id}",
+            extra={"guild_id": interaction.guild.id},
         )
         await self.bot.db_manager.update_channel(
             interaction.guild.id, tipo.value, canal.id

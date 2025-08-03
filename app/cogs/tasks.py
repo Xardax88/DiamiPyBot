@@ -21,8 +21,9 @@ MENSAJES_JUEVES = [
     "Tomen, para que no decaiga el ánimo. Feliz Jueves.",
     "Ai... un día más cerca del fin de semana. No se rindan.",
     "Para ustedes, mortales que necesitan un empujón a mitad de semana. Feliz Jueves! 🤘",
-    "Feliz Jueves. Ahora, si me disculpan, mi café me espera."
+    "Feliz Jueves. Ahora, si me disculpan, mi café me espera.",
 ]
+
 
 # ==============================================================================
 # Cog para manejar tareas programadas
@@ -66,7 +67,9 @@ class ScheduledTasks(commands.Cog, name="tasks"):
                 if not config or not config.get("main_channel_id"):
                     # Si no hay configuración o el canal principal no está definido, saltamos al siguiente servidor
                     continue
-                if not config.get("features", {}).get("feliz_jueves_task_enabled", False):
+                if not config.get("features", {}).get(
+                    "feliz_jueves_task_enabled", False
+                ):
                     # Si la tarea no está habilitada, saltamos al siguiente servidor
                     continue
 
@@ -81,21 +84,33 @@ class ScheduledTasks(commands.Cog, name="tasks"):
                         message_text = random.choice(MENSAJES_JUEVES)
 
                         await channel.send(content=message_text, file=file)
-                        logger.info(f"Meme 'Feliz Jueves' enviado en el servidor '{guild.name}'.")
+                        logger.info(
+                            f"Meme 'Feliz Jueves' enviado en el servidor '{guild.name}'.",
+                            extra={"guild_id": guild.id},
+                        )
 
                     except FileNotFoundError:
                         logger.error(
-                            f"No se encontró el archivo del meme 'feliz_jueves.png' en la ruta: {image_path}")
+                            f"No se encontró el archivo del meme 'feliz_jueves.png' en la ruta: {image_path}",
+                            extra={"guild_id": guild.id},
+                        )
                     except Exception as e:
-                        logger.error(f"Error al enviar el meme en '{guild.name}': {e}")
+                        logger.error(
+                            f"Error al enviar el meme en '{guild.name}': {e}",
+                            extra={"guild_id": guild.id},
+                        )
 
             except Exception as e:
-                logger.error(f"Error procesando el servidor {guild.name} para la tarea de Feliz Jueves: {e}")
+                logger.error(
+                    f"Error procesando el servidor {guild.name} para la tarea de Feliz Jueves: {e}",
+                    extra={"guild_id": guild.id},
+                )
 
     @feliz_jueves_task.before_loop
     async def before_feliz_jueves_task(self):
         """Espera a que el bot esté listo antes de iniciar la tarea."""
         await self.bot.wait_until_ready()
+
 
 # ==============================================================================
 # FUNCIÓN DE CARGA DEL COG
