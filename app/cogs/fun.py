@@ -10,6 +10,7 @@ from discord.ext import commands
 from discord import app_commands
 import random
 from PIL import Image
+import imageio
 
 
 logger = logging.getLogger(__name__)
@@ -260,6 +261,107 @@ class Fun(commands.Cog, name="Diversion"):
             )
             await interaction.followup.send(
                 "❌ Ocurrió un error al procesar la tirada."
+            )
+
+    # ==============================================================================
+    # Comando de meme "triggered"
+    # ==============================================================================
+    @app_commands.command(
+        name="triggerd", description="🤬 Genera un meme 'triggered' con tu avatar."
+    )
+    async def triggerd(self, interaction: discord.Interaction):
+        """
+        Comando que toma el avatar del usuario, le aplica un efecto de temblor y le agrega el GIF 'triggered' en la parte inferior.
+        """
+        await interaction.response.defer()
+        try:
+            # Obtener el avatar del usuario
+            avatar_url = interaction.user.display_avatar.replace(
+                format="png", size=256
+            ).url
+            async with interaction.client.http._HTTPClient__session.get(
+                avatar_url
+            ) as resp:
+                avatar_bytes = await resp.read()
+            avatar_img = Image.open(BytesIO(avatar_bytes)).convert("RGBA")
+
+            # Cargar el GIF 'triggered'
+            triggered_gif_path = os.path.join(
+                os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+                "assets",
+                "images",
+                "triggered",
+                "triggered.gif",
+            )
+            triggered_gif = imageio.mimread(triggered_gif_path)
+            triggered_gif_height = triggered_gif[0].shape[0]
+            triggered_gif_width = triggered_gif[0].shape[1]
+
+            # Redimensionar el avatar un poco más grande que el ancho del GIF 'triggered' para evitar bordes negros al sacudir
+            AVATAR_OVERSIZE = 1.25  # Factor de escala para el avatar
+            avatar_size = int(triggered_gif_width * AVATAR_OVERSIZE)
+            avatar_img = avatar_img.resize((avatar_size, avatar_size))
+
+            frames = []
+            # Generar frames con efecto de temblor
+            for i, triggered_frame in enumerate(triggered_gif):
+                # Efecto de temblor: desplazar aleatoriamente el avatar
+                dx = random.randint(
+                    -int((avatar_size - triggered_gif_width) / 2),
+                    int((avatar_size - triggered_gif_width) / 2),
+                )
+                dy = random.randint(
+                    -int((avatar_size - triggered_gif_width) / 2),
+                    int((avatar_size - triggered_gif_width) / 2),
+                )
+                base = Image.new(
+                    "RGBA",
+                    (triggered_gif_width, triggered_gif_height + triggered_gif_width),
+                    (0, 0, 0, 0),
+                )
+                # Pegar el avatar centrado y desplazado
+                base.paste(
+                    avatar_img,
+                    (
+                        dx - int((avatar_size - triggered_gif_width) / 2),
+                        dy - int((avatar_size - triggered_gif_width) / 2),
+                    ),
+                )
+                # Superponer el frame del GIF 'triggered' en la parte inferior
+                triggered_pil = Image.fromarray(triggered_frame)
+                if triggered_pil.mode != "RGBA":
+                    triggered_pil = triggered_pil.convert("RGBA")
+                # Usar el canal alfa como máscara de transparencia
+                base.paste(
+                    triggered_pil, (0, triggered_gif_width), triggered_pil.split()[3]
+                )
+                frames.append(base)
+
+            # Guardar el resultado en un buffer
+            buffer = BytesIO()
+            frames[0].save(
+                buffer,
+                format="GIF",
+                save_all=True,
+                append_images=frames[1:],
+                duration=40,
+                loop=0,
+                disposal=2,
+                transparency=0,
+            )
+            buffer.seek(0)
+
+            file = discord.File(buffer, filename="triggered.gif")
+            await interaction.followup.send(
+                file=file, content=f"{interaction.user.mention} se TRIGGERIO!"
+            )
+        except Exception as e:
+            logger.error(
+                f"Error en el comando triggerd: {e}",
+                extra={"guild_id": interaction.guild.id},
+            )
+            await interaction.followup.send(
+                "❌ Ocurrió un error al generar el meme triggered."
             )
 
 

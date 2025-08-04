@@ -7,3 +7,4 @@ black
 nicegui
 requests_oauthlib
 pyjwt
+imageio

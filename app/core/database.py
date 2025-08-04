@@ -3,6 +3,7 @@ import logging
 import motor.motor_asyncio
 
 from ..schemas.guild_config import get_default_guild_config
+from ..schemas.level import get_default_user_level
 
 logger = logging.getLogger("discord")
 
@@ -17,6 +18,8 @@ class DatabaseManager:
         except Exception as e:
             logger.critical(f"No se pudo conectar a MongoDB: {e}")
             self.client = None
+
+    # --- Configuración de Servidores ---
 
     async def get_guild_config(self, guild_id: int):
         """Obtiene la configuración de un servidor específico por su ID."""
@@ -87,3 +90,51 @@ class DatabaseManager:
             upsert=True,  # Si el documento no existe, se creará con esta actualización
         )
         logger.info(f"Guild {guild_id}: Flag '{feature_name}' establecido a {status}.")
+
+    # --- Experiencia de Usuario ---
+
+    @property
+    def user_level_collection(self):
+        """
+        Devuelve la colección de experiencia de usuario.
+        """
+        return self.db["user_levels"]
+
+    async def get_user_level(self, guild_id: int, user_id: int):
+        """
+        Obtiene el documento de experiencia de un usuario en un servidor.
+        """
+        return await self.user_level_collection.find_one(
+            {"guild_id": guild_id, "user_id": user_id}
+        )
+
+    async def create_user_level(self, guild_id: int, user_id: int):
+        """
+        Crea un documento de experiencia por defecto para un usuario en un servidor.
+        """
+        if await self.get_user_level(guild_id, user_id):
+            logger.info(
+                f"La experiencia para el usuario {user_id} en el guild {guild_id} ya existe."
+            )
+            return False
+        default_level = get_default_user_level(guild_id, user_id)
+        await self.user_level_collection.insert_one(default_level)
+        logger.info(
+            f"Se ha creado la experiencia inicial para el usuario {user_id} en el guild {guild_id}."
+        )
+        return True
+
+    async def add_xp(self, guild_id: int, user_id: int, xp: int):
+        """
+        Añade experiencia a un usuario en un servidor. Si no existe el documento, lo crea.
+        """
+        user_level = await self.get_user_level(guild_id, user_id)
+        if not user_level:
+            await self.create_user_level(guild_id, user_id)
+        result = await self.user_level_collection.update_one(
+            {"guild_id": guild_id, "user_id": user_id},
+            {"$inc": {"xp": xp}},
+            upsert=True,
+        )
+        logger.info(f"Añadidos {xp} XP al usuario {user_id} en el guild {guild_id}.")
+        return result
