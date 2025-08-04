@@ -217,6 +217,8 @@ class CanvasRank:
         )
         img.paste(progress, (bar_x, bar_y), progress)
 
+        # --- Texto de nivel y experiencia ---
+
         # Fondo texto de nivel y experiencia
         bg_width = 380
         bg_height = 30
@@ -262,6 +264,8 @@ class CanvasRank:
         x = (310 + bg_width) - text_width - 15
         draw.text((x, y), text_level, font=font, fill=(142, 126, 194, 255))
 
+        # --- Tipo de usuario ---
+
         # Fondo user type (User, Bot, Admin, Mod)
         bg_width = 160
         bg_height = 30
@@ -297,5 +301,7 @@ class CanvasRank:
         x = bg_x + (bg_width // 2) - (text_width // 2)
         y = (self.height - text_height) - 40
         draw.text((x, y), role, font=font, fill=(255, 255, 255, 255))
+
+        # Badges
 
         return img

@@ -131,9 +131,8 @@ Esta es la tecnológica que da vida a Diami:
     ```
 
 4.  **Configura tus variables de entorno:**
-    *   Crea un archivo llamado `.env` en la raíz del proyecto y usa la siguiente plantilla:
+    *   Crea un archivo llamado `.env` en la raíz del proyecto o actualiza las variables de entorno del servidor usando la siguiente plantilla:
     ```env
-    # .env
     DISCORD_TOKEN="EL_TOKEN_DE_TU_BOT_AQUÍ"
     MONGO_URI="TU_URI_DE_CONEXIÓN_A_MONGODB_AQUÍ"
     
@@ -163,6 +162,7 @@ Esta es la lista de funcionalidades planificadas y su estado actual. ¡Hay mucho
 - [x] Tareas programadas (`tasks`).
 - [x] Menús contextuales.
 - [x] Funciones activables/desactivables.
+- [x] Comandos de ayuda (`/help`).
 </details>
 
 <details>
@@ -173,6 +173,17 @@ Esta es la lista de funcionalidades planificadas y su estado actual. ¡Hay mucho
 - [ ] Anti-Raid.
 - [ ] Comandos de moderación (`/mute`, `/unmute`, `/kick`, `/ban`).
   - [ ] Aplicable también mediante menú contextual.
+</details>
+
+<details>
+<summary><strong>🔝  Sistema de niveles</strong></summary>
+
+- [x] Sistema experiencia.
+- [x] Sistema de niveles.
+- [x] Canvas personalizado para Rank y Leaderboard.
+- [X] Comando `/rank`.
+- [ ] Comando `/leaderboard`.
+- [ ] Recompensas por niveles.
 </details>
 
 <details>
@@ -192,10 +203,7 @@ Esta es la lista de funcionalidades planificadas y su estado actual. ¡Hay mucho
 
 - [x] Mensajes de bienvenida y despedida personalizables.
 - [x] Comandos de ayuda (`/help`).
-- [ ] Comandos de información (`/serverinfo`, `/userinfo`).
-- [ ] Sistema de tarjeta de usuario (`/profile`).
-- [ ] Comandos de búsqueda (`/search`).
-- [ ] Dashboard web para configuración.
+- [X] Comandos de información (`/serverinfo`, `/userinfo`).
 - [ ] Avatar animado (cambia según eventos o el día).
 </details>
 
@@ -210,8 +218,12 @@ Esta es la lista de funcionalidades planificadas y su estado actual. ¡Hay mucho
 <summary><strong>💰 Sistema de Economía</strong></summary>
 
 - [ ] **Fundamentos:** `/balance`, `/extract`, `/deposit`, `/daily`, `/pay`.
+  - [ ] Comando `/add_money` y `/remove_money` (para administradores).
 - [ ] **Sistema de Empleos:** Trabajos con cooldown y diferentes pagos.
 - [ ] **Tienda y Objetos:** Compra de insignias (badges) y objetos.
+  - [ ] Comando `/shop`.
+  - [ ] Comando `/buy`.
+  - [ ] Comando `/sell`.
 - [ ] **Inventario:** Comando `/inventory`.
 </details>
 
@@ -241,7 +253,7 @@ Esta es la lista de funcionalidades planificadas y su estado actual. ¡Hay mucho
 - [ ] Integración de IA para juegos y eventos.
 - [ ] Integración de IA para moderación de contenido.
 - [ ] Implementación de IA para usar comandos de forma natural.
-- [x] Efemérides con IA (mediante `task` y/o comando).
+- [ ] Efemérides con IA (mediante `task` y/o comando).
 </details>
 
 # ✨Agradecimientos
