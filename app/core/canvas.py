@@ -15,6 +15,79 @@ FONT_PATH = os.path.join(
 )
 
 
+class CanvasLederboard:
+    """
+    Clase para generar imágenes de leaderboard personalizadas.
+    Por ahora, solo genera una imagen de 880x300 px con bordes redondeados y fondo gris.
+    """
+
+    def __init__(self, guild_id: int):
+        """
+        Inicializa la clase con el ID del servidor (guild).
+        :param guild_id: ID del servidor (guild).
+        """
+        self.guild_id = guild_id
+        self.width = 880
+        self.height = 800
+        self.radius = 40
+        self.border_gradient_0 = (252, 185, 105)  # #fcb969
+        self.border_gradient_1 = (226, 97, 36)  # #e26124
+        self.inner_gradient_0 = (50, 50, 50)
+        self.inner_gradient_1 = (60, 60, 60)
+
+    def render(self) -> Image.Image:
+        """
+        Genera y retorna la imagen del leaderboard con todos los elementos visuales.
+        :return: Imagen PIL.Image
+        """
+        # Crear imagen con fondo transparente
+        img = Image.new("RGBA", (self.width, self.height), (0, 0, 0, 0))
+
+        # --- Gradiente exterior (borde) ---
+        gradient = Image.new("RGBA", (self.width, self.height), 0)
+        draw_gradient = ImageDraw.Draw(gradient)
+        start_color = self.border_gradient_0
+        end_color = self.border_gradient_1
+        for x in range(self.width):
+            ratio = x / (self.width - 1)
+            r = int(start_color[0] * (1 - ratio) + end_color[0] * ratio)
+            g = int(start_color[1] * (1 - ratio) + end_color[1] * ratio)
+            b = int(start_color[2] * (1 - ratio) + end_color[2] * ratio)
+            draw_gradient.line([(x, 0), (x, self.height)], fill=(r, g, b, 255))
+
+        # Máscara para bordes redondeados exteriores
+        mask = Image.new("L", (self.width, self.height), 0)
+        mask_draw = ImageDraw.Draw(mask)
+        mask_draw.rounded_rectangle(
+            [(0, 0), (self.width, self.height)], radius=self.radius, fill=255
+        )
+        img.paste(gradient, (0, 0), mask)
+
+        # --- Rectángulo interior ---
+        margin = 10
+        inner_width = self.width - 2 * margin
+        inner_height = self.height - 2 * margin
+        inner_radius = self.radius - 10 if self.radius > 10 else self.radius
+        # Crear gradiente vertical de gris claro a gris oscuro
+        inner_gradient = Image.new("RGBA", (inner_width, inner_height), 0)
+        draw_inner = ImageDraw.Draw(inner_gradient)
+        start_gray = self.inner_gradient_0
+        end_gray = self.inner_gradient_1
+        for y in range(inner_height):
+            ratio = y / (inner_height - 1)
+            r = int(start_gray[0] * (1 - ratio) + end_gray[0] * ratio)
+            g = int(start_gray[1] * (1 - ratio) + end_gray[1] * ratio)
+            b = int(start_gray[2] * (1 - ratio) + end_gray[2] * ratio)
+            draw_inner.line([(0, y), (inner_width, y)], fill=(r, g, b, 255))
+        # Máscara para bordes redondeados interiores
+        inner_mask = Image.new("L", (inner_width, inner_height), 0)
+        inner_mask_draw = ImageDraw.Draw(inner_mask)
+        inner_mask_draw.rounded_rectangle(
+            [(0, 0), (inner_width, inner_height)], radius=inner_radius, fill=255
+        )
+        img.paste(inner_gradient, (margin, margin), inner_mask)
+
+
 class CanvasRank:
     """
     Clase para generar imágenes de rank personalizadas para usuarios.

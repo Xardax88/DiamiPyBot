@@ -138,3 +138,22 @@ class DatabaseManager:
         )
         logger.info(f"Añadidos {xp} XP al usuario {user_id} en el guild {guild_id}.")
         return result
+
+    async def get_leaderboard(self, guild_id: int):
+        """
+        Obtiene el top 10 de usuarios con más experiencia (xp) en un servidor específico.
+        Devuelve una lista de diccionarios con el user_id y la cantidad de xp de cada usuario.
+        Args:
+            guild_id (int): ID del servidor (guild) del que se quiere obtener el ranking.
+        Returns:
+            list[dict]: Lista de los 10 usuarios con más xp, cada uno con 'user_id' y 'xp'.
+        """
+        cursor = (
+            self.user_level_collection.find({"guild_id": guild_id})
+            .sort("xp", -1)
+            .limit(10)
+        )
+        leaderboard = []
+        async for doc in cursor:
+            leaderboard.append({"user_id": doc["user_id"], "xp": doc.get("xp", 0)})
+        return leaderboard

@@ -5,6 +5,8 @@ import discord
 from discord.ext import commands
 from discord import app_commands, ui, TextStyle
 import random
+import re
+from collections import Counter
 
 logger = logging.getLogger(__name__)
 
@@ -71,10 +73,29 @@ class Utils(commands.Cog, name="Utils"):
         self, interaction: discord.Interaction, usuario: discord.User = None
     ):
         """
-        Muestra información detallada de un usuario especificado o del propio usuario si no se indica ninguno.
+        Muestra información detallada de un usuario, incluyendo su actividad con emojis.
         """
+        await interaction.response.defer()
         objetivo = usuario or interaction.user
-        # Construir el embed con información relevante
+
+        # --- Conteo de Emojis ---
+        emoji_counter = Counter()
+        # Expresión regular para encontrar emojis personalizados y de Unicode
+        emoji_regex = re.compile(r'<a?:\w+:\d+>|[\U0001F300-\U0001F5FF\U0001F600-\U0001F64F\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]+')
+        
+        async for message in interaction.channel.history(limit=100):
+            if message.author.id == objetivo.id:
+                emojis_encontrados = emoji_regex.findall(message.content)
+                emoji_counter.update(emojis_encontrados)
+
+        total_emojis = sum(emoji_counter.values())
+        if emoji_counter:
+            emoji_mas_comun = emoji_counter.most_common(1)[0]
+            emoji_mas_usado_str = f"{emoji_mas_comun[0]} (usado {emoji_mas_comun[1]} veces)"
+        else:
+            emoji_mas_usado_str = "Ninguno"
+
+        # --- Construcción del Embed ---
         embed = discord.Embed(
             title=f"Información de {objetivo.display_name}",
             color=discord.Color.purple(),
@@ -88,29 +109,34 @@ class Utils(commands.Cog, name="Utils"):
             value=objetivo.created_at.strftime("%d/%m/%Y %H:%M"),
             inline=False,
         )
-        # Si el usuario es miembro del servidor, mostrar información adicional
         if isinstance(objetivo, discord.Member):
             embed.add_field(
                 name="Entró al servidor",
                 value=objetivo.joined_at.strftime("%d/%m/%Y %H:%M"),
                 inline=False,
             )
-            roles = [
-                role.mention for role in objetivo.roles if role.name != "@everyone"
-            ]
+            roles = [role.mention for role in objetivo.roles if role.name != "@everyone"]
             embed.add_field(
                 name="Roles",
                 value=", ".join(roles) if roles else "Sin roles",
                 inline=False,
             )
-            embed.add_field(
-                name="Bot", value="Sí" if objetivo.bot else "No", inline=True
-            )
-        else:
-            embed.add_field(
-                name="Bot", value="Sí" if objetivo.bot else "No", inline=True
-            )
-        await interaction.response.send_message(embed=embed)
+        
+        embed.add_field(name="Bot", value="Sí" if objetivo.bot else "No", inline=True)
+        
+        # --- Añadir campos de emojis al embed ---
+        embed.add_field(
+            name="Emojis en los últimos 100 mensajes",
+            value=f"Total: **{total_emojis}**",
+            inline=False
+        )
+        embed.add_field(
+            name="Emoji más usado",
+            value=emoji_mas_usado_str,
+            inline=False
+        )
+        
+        await interaction.followup.send(embed=embed)
 
 
 # ==============================================================================

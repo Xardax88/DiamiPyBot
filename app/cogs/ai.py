@@ -2,10 +2,10 @@
 import os
 import logging
 import asyncio
-import xml.etree.ElementTree as ET
 from datetime import datetime
 from io import BytesIO
 import random
+from zoneinfo import ZoneInfo
 
 import discord
 from discord.ext import commands, tasks
@@ -41,7 +41,18 @@ SALUDOS_COMUNES = [
 # ==============================================================================
 # Configuración del modelo de Gemini
 # ==============================================================================
-MODEL = "gemini-2.5-flash-lite"  # Modelo de Gemini a utilizar
+MODEL = "gemini-2.0-flash-lite"  # Modelo de Gemini a utilizar
+PROMPT_PATH = "data/prompts/personality.md"
+ARGENTINA_TZ = ZoneInfo("America/Argentina/Buenos_Aires")
+WEEKDAYS_ES = [
+    "Lunes",
+    "Martes",
+    "Miércoles",
+    "Jueves",
+    "Viernes",
+    "Sábado",
+    "Domingo",
+]
 
 
 # ==============================================================================
@@ -98,38 +109,59 @@ class AI(commands.Cog, name="Inteligencia Artificial Diami"):
         self.proactive_conversation_task.cancel()
 
     def _load_personality_prompt(self) -> str | None:
-
-        prompt_path = "data/prompts/personality.xml"
         try:
-            tree = ET.parse(prompt_path)
-            root = tree.getroot()
-            full_text_content = "\n".join(
-                node.strip() for node in root.itertext() if node.strip()
-            )
-            logger.info(
-                "Prompt de personalidad complejo cargado exitosamente desde XML."
-            )
-            return full_text_content
+            with open(PROMPT_PATH, "r", encoding="utf-8") as prompt_file:
+                content = prompt_file.read().strip()
+            logger.info("Prompt de personalidad cargado exitosamente desde Markdown.")
+            return content
         except Exception as e:
             logger.error(
-                f"Error al parsear el archivo XML de personalidad: {e}", exc_info=True
+                f"Error al cargar el archivo de personalidad: {e}", exc_info=True
             )
             return None
 
-    async def _get_message_history_xml(self, channel: discord.TextChannel) -> str:
+    def _get_current_timestamp(self) -> str:
+        now = datetime.now(ARGENTINA_TZ)
+        weekday_es = WEEKDAYS_ES[now.weekday()]
+        return (
+            f"<timestamp_actual>{weekday_es}, {now.strftime('%d/%m/%Y %H:%M')} "
+            "(UTC-3)</timestamp_actual>"
+        )
+
+    async def _get_message_history_xml(
+        self,
+        channel: discord.TextChannel,
+        limit: int = 40,
+        max_chars: int = 3000,
+    ) -> str:
 
         history_parts = []
-        async for old_message in channel.history(limit=100):
+        current_chars = 0
+        async for old_message in channel.history(limit=limit, oldest_first=True):
+            if not old_message.content and not old_message.attachments:
+                continue
+
             content = discord.utils.escape_markdown(old_message.content)
             content = discord.utils.escape_mentions(content)
+            content = " ".join(content.split())
+
+            if len(content) > 220:
+                content = f"{content[:217]}..."
+
             if old_message.attachments:
-                content += (
-                    f" [El usuario adjuntó {len(old_message.attachments)} imagen(es)]"
-                )
-            history_parts.append(
-                f"<mensaje><usuario>{old_message.author.display_name}</usuario><contenido>{content.strip()}</contenido></mensaje>"
-            )
-        history_parts.reverse()
+                content += f" [Adjuntó {len(old_message.attachments)} imagen(es)]"
+
+            line = f"{old_message.author.display_name}: {content.strip()}"
+            if not line.strip():
+                continue
+
+            projected_chars = current_chars + len(line) + 1
+            if projected_chars > max_chars:
+                break
+
+            history_parts.append(line)
+            current_chars = projected_chars
+
         history_str = "\n".join(history_parts)
         return f"<historial_chat>\n{history_str}\n</historial_chat>"
 
@@ -138,7 +170,7 @@ class AI(commands.Cog, name="Inteligencia Artificial Diami"):
         channel: discord.TextChannel,
         user_name: str,
         user_input: str,
-        attachments: list = [],
+        attachments: list | None = None,
     ):
         """
         Genera una respuesta usando Gemini, diferenciando entre prompts normales y comandos internos.
@@ -154,7 +186,7 @@ class AI(commands.Cog, name="Inteligencia Artificial Diami"):
             # Prompt normal: agregar contexto de canal, historial y timestamp
             if channel is not None:
                 history_xml = await self._get_message_history_xml(channel)
-                timestamp_xml = f"<timestamp_actual>{datetime.now().strftime('%A, %H:%M')}</timestamp_actual>"
+                timestamp_xml = self._get_current_timestamp()
                 context_and_task = f"""
 <contexto_actual_y_tarea>
     {timestamp_xml}

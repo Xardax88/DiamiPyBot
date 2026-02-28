@@ -18,7 +18,6 @@ class Level(commands.Cog):
     def __init__(self, bot: commands.Bot, db_manager: DatabaseManager):
         self.bot = bot
         self.db_manager = db_manager
-        # Diccionario para almacenar el último timestamp de XP por usuario y servidor
         self.last_xp_time = {}  # {(guild_id, user_id): timestamp}
         self.last_msg = {}  # {(guild_id, user_id): last_message_content}
 
@@ -38,7 +37,7 @@ class Level(commands.Cog):
         guild_id = message.guild.id
 
         # Ignorar mensajes demasiado cortos
-        if len(message.content) < 10:
+        if len(message.content) < 5:
             return
 
         # Ignora mensajes que contengan urls
@@ -134,7 +133,6 @@ class Level(commands.Cog):
             xp = 0
 
         if user_rol == "Bot":
-            # xp = 1000000000
             xp = 1724004175
 
         # Calcular nivel usando la función lvl_cal
@@ -160,6 +158,47 @@ class Level(commands.Cog):
             await interaction.response.send_message(
                 file=file,
             )
+
+    # --- Comando Slash para mostrar el leaderboard ---
+    @discord.app_commands.command(
+        name="leaderboard",
+        description="📊 Muestra el ranking de usuarios por experiencia en este servidor.",
+    )
+    async def leaderboard(self, interaction: discord.Interaction):
+        """
+        Comando slash que muestra el ranking de usuarios por experiencia en el servidor actual.
+        Muestra los 10 usuarios con más experiencia.
+        """
+        logger.debug("leaderboard")
+        guild_id = interaction.guild.id if interaction.guild else None
+        if not guild_id:
+            await interaction.response.send_message(
+                "Este comando solo puede usarse en servidores.", ephemeral=True
+            )
+            return
+
+        # Obtener el ranking de usuarios desde la base de datos
+        leaderboard = await self.db_manager.get_leaderboard(guild_id)
+        logger.debug(leaderboard)
+
+        if not leaderboard:
+            await interaction.response.send_message(
+                "No hay datos de experiencia disponibles en este servidor.",
+                ephemeral=True,
+            )
+            return
+
+        # Formatear el mensaje del leaderboard
+        leaderboard_message = "\ud83c\udfc6 **Ranking de Experiencia** \ud83c\udfc6\n\n"
+        for rank, entry in enumerate(leaderboard[:10], start=1):
+            # Cada 'entry' es un diccionario con 'user_id' y 'xp'
+            user_id = entry["user_id"]
+            xp = entry.get("xp", 0)
+            user = interaction.guild.get_member(user_id)
+            user_name = user.display_name if user else f"Usuario {user_id}"
+            leaderboard_message += f"{rank}. {user_name} - {xp} XP\n"
+
+        await interaction.response.send_message(leaderboard_message)
 
     # --- Método estático para calcular el nivel ---
     @staticmethod

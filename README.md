@@ -104,7 +104,7 @@ Esta es la tecnológica que da vida a Diami:
 *   **Despliegue y Hosting:**
     * ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
     * ![Railway](https://img.shields.io/badge/Railway-131415?style=for-the-badge&logo=railway&logoColor=white)
-    * ![Fedora Server](https://img.shields.io/badge/Fedora%20Server-51A2DA?style=for-the-badge&logo=fedora&logoColor=white)
+    * ![Proxmox](https://img.shields.io/badge/Proxmox-E57000?style=for-the-badge&logo=fedora&logoColor=white)
 
 ## 💾 Instalación
 
